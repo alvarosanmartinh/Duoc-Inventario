@@ -1,11 +1,11 @@
 {
-    "title": "SB Admin 2",
-    "name": "startbootstrap-sb-admin-2",
-    "version": "4.0.2",
+    "title": "Inventario",
+    "name": "inventario",
+    "version": "0.0.1",
     "scripts": {
         "start": "gulp watch"
     },
-    "description": "An open source Bootstrap 4 admin theme.",
+    "description": "Trabajo de profundizacion java en Duoc",
     "keywords": [
         "css",
         "sass",
@@ -16,20 +16,6 @@
         "admin",
         "app"
     ],
-    "homepage": "https://startbootstrap.com/template-overviews/sb-admin-2",
-    "bugs": {
-        "url": "https://github.com/BlackrockDigital/startbootstrap-sb-admin-2/issues",
-        "email": "feedback@startbootstrap.com"
-    },
-    "license": "MIT",
-    "author": "Start Bootstrap",
-    "contributors": [
-        "David Miller (http://davidmiller.io/)"
-    ],
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/BlackrockDigital/startbootstrap-sb-admin-2.git"
-    },
     "dependencies": {
         "@fortawesome/fontawesome-free": "5.7.2",
         "bootstrap": "4.3.1",
