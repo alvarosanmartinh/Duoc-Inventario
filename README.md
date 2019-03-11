@@ -1,14 +1,8 @@
-# [Proyecto Inventario]
+# Proyecto Inventario
 
 [Inventario] es un proyecto para la gestión de inventario de productos para tiendas con gran cantidad y/o stock
 
 For the legacy Bootstrap 3 version of this theme, you can view the [last stable release](https://github.com/BlackrockDigital/startbootstrap-sb-admin-2/releases/tag/v3.3.7%2B1) of SB Admin 2 for Bootstrap 3.
-
-## Plantilla
-
-[![SB Admin 2 Preview](https://startbootstrap.com/assets/img/screenshots/themes/sb-admin-2.png)](https://blackrockdigital.github.io/startbootstrap-sb-admin-2/)
-
-**[Launch Live Preview](https://blackrockdigital.github.io/startbootstrap-sb-admin-2/)**
 
 ## Usage
 
@@ -26,6 +20,10 @@ node v11.6.0
 Gulp CLI v2.0.1.
 
 ## Sobre la plantilla:
+
+[![SB Admin 2 Preview](https://startbootstrap.com/assets/img/screenshots/themes/sb-admin-2.png)](https://blackrockdigital.github.io/startbootstrap-sb-admin-2/)
+
+**[Launch Live Preview](https://blackrockdigital.github.io/startbootstrap-sb-admin-2/)**
 
 Start Bootstrap is an open source library of free Bootstrap templates and themes. All of the free templates and themes on Start Bootstrap are released under the MIT license, which means you can use them for any purpose, even for commercial projects.
 
