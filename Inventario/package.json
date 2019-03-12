@@ -7,14 +7,8 @@
     },
     "description": "Trabajo de profundizacion java en Duoc",
     "keywords": [
-        "css",
-        "sass",
-        "html",
-        "responsive",
-        "theme",
-        "template",
-        "admin",
-        "app"
+        "inventario",
+        "duoc"
     ],
     "dependencies": {
         "@fortawesome/fontawesome-free": "5.7.2",
