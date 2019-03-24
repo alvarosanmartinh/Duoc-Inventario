@@ -1,6 +1,3 @@
-
-
-
 jQuery('#logIn').click(function(){
     var user = jQuery('#user').val();
     var pass = jQuery('#pass').val();
@@ -8,7 +5,6 @@ jQuery('#logIn').click(function(){
         alert('Complete todos los datos del formulario');
     }
 });
-
 
 $(function(){
 
@@ -30,7 +26,7 @@ $(function(){
 
 function phonenumber(numero)
 {
-    var formato = /^\+?([0-9]{3})\)?[-. ]?([0-9]{4})[-. ]?([0-9]{4})$/;
+    var formato = /^\+?([5][6][9])\)?[-. ]?([0-9]{4})[-. ]?([0-9]{4})$/;
     if(numero.value.match(formato)){        
         return true;
     }else{        
