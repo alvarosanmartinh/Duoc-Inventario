@@ -54,7 +54,9 @@ public class Utils implements Serializable {
     private static Usuario crearUsuario(int i) {
         Faker faker = new Faker();
         String nombre = faker.name().fullName();
-        return new Usuario(i).nombre(nombre).clave(new RandomString(11).nextString()).userName(nombre.substring(nombre.lastIndexOf(" ")+1)+"9"+i);
+        String clave = new RandomString(11).nextString();
+        String userName = nombre.toLowerCase().substring(nombre.lastIndexOf(" ")+1)+"9"+i;
+        return new Usuario(i).nombre(nombre).clave(clave).userName(userName);
     }
 
     @Produces
