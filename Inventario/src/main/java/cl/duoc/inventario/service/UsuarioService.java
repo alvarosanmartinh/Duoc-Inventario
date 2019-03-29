@@ -100,11 +100,6 @@ public class UsuarioService implements Serializable {
                 predicates.add(clavePredicate);
             }
             
-            if (has(filterEntity.getClave())) {
-                Predicate<Usuario> clavePredicate = (Usuario c) -> c.getClave().toLowerCase().contains(filterEntity.getClave().toLowerCase());
-                predicates.add(clavePredicate);
-            }
-            
             if (has(filterEntity.getNombre())) {
                 Predicate<Usuario> namePredicate = (Usuario c) -> c.getNombre().toLowerCase().contains(filterEntity.getNombre().toLowerCase());
                 predicates.add(namePredicate);
@@ -149,7 +144,7 @@ public class UsuarioService implements Serializable {
         return allUsuarios.stream()
                 .filter(c -> c.getId().equals(id))
                 .findFirst()
-                .orElseThrow(() -> new BusinessException("No se encontro el auto con id " + id));
+                .orElseThrow(() -> new BusinessException("No se encontro el usuario con id " + id));
     }
 
     public void update(Usuario usuario) {

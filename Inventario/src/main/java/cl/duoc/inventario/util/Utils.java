@@ -54,7 +54,7 @@ public class Utils implements Serializable {
     private static Usuario crearUsuario(int i) {
         Faker faker = new Faker();
         String nombre = faker.name().fullName();
-        return new Usuario(i).nombre(nombre).clave(new RandomString(11).toString()).userName(nombre.substring(3)+"9"+i);
+        return new Usuario(i).nombre(nombre).clave(new RandomString(11).nextString()).userName(nombre.substring(nombre.lastIndexOf(" ")+1)+"9"+i);
     }
 
     @Produces
@@ -62,4 +62,8 @@ public class Utils implements Serializable {
         return productos;
     }
 
+    @Produces
+    public List<Usuario> getUsuarios() {
+        return usuarios;
+    }
 }
