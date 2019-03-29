@@ -37,17 +37,22 @@ public class ProductoService implements Serializable {
 
     public List<Producto> paginate(Filter<Producto> filter) {
         List<Producto> pagedProductos = new ArrayList<>();
+        System.out.println("paginate allProductos start:");  
+        for(Producto p : allProductos){
+            System.out.println(p.toString());            
+        }
+        System.out.println("paginate allProductos end");  
         if(has(filter.getSortOrder()) && !SortOrder.UNSORTED.equals(filter.getSortOrder())) {
-                pagedProductos = allProductos.stream().
-                    sorted((c1, c2) -> {
-                        if (filter.getSortOrder().isAscending()) {
-                            return c1.getId().compareTo(c2.getId());
-                        } else {
-                            return c2.getId().compareTo(c1.getId());
-                        }
-                    })
-                    .collect(Collectors.toList());
-            }
+            pagedProductos = allProductos.stream().
+                sorted((c1, c2) -> {
+                    if (filter.getSortOrder().isAscending()) {
+                        return c1.getId().compareTo(c2.getId());
+                    } else {
+                        return c2.getId().compareTo(c1.getId());
+                    }
+                })
+                .collect(Collectors.toList());
+        }
 
         int page = filter.getFirst() + filter.getPageSize();
         if (filter.getParams().isEmpty()) {

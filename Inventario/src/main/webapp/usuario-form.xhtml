@@ -6,7 +6,7 @@
 
        
     <ui:define name="metadata">
-        <ui:param name="title" value="Producto"/>
+        <ui:param name="title" value="Usuario"/>
         <style type="text/css">
             .ui-datatable .ui-datatable-header {
                 text-align: right !important;
@@ -53,7 +53,7 @@
                         </p:commandButton>
                         <p:spacer width="5"/>
                         <p:commandButton value="Atras" immediate="true"
-                                         action="product-list?faces-redirect=true"
+                                         action="usuario-list?faces-redirect=true"
                                          process="@this"
                                          icon="fa fa-reply"/>
                     </div>
@@ -70,7 +70,7 @@
                             <p:confirm header="Confirmar" message="Esta seguro?" icon="ui-icon-danger"/>
                         </p:menuitem>
                         <p:separator/>
-                        <p:menuitem value="Atras" action="product-list?faces-redirect=true"
+                        <p:menuitem value="Atras" action="usuario-list?faces-redirect=true"
                                     process="@this" immediate="true"
                                     icon="fa fa-reply"/>
                     </p:splitButton>

@@ -10,9 +10,7 @@ import java.util.Random;
  * @author Alvaro San Martín
  */
 public class RandomString {
-     /**
-     * Generate a random string.
-     */
+    
     public String nextString() {
         for (int idx = 0; idx < buf.length; ++idx)
             buf[idx] = symbols[random.nextInt(symbols.length)];
