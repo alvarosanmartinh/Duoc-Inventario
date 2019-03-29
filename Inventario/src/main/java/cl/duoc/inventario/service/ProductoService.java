@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package cl.duoc.inventario.service;
 
 import cl.duoc.inventario.infra.model.Filter;
@@ -19,6 +15,10 @@ import java.util.stream.Collectors;
 import static com.github.adminfaces.template.util.Assert.has;
 import javax.inject.Inject;
 
+/**
+ *
+ * @author Alvaro San Martín
+ */
 @Stateless
 public class ProductoService implements Serializable {
 
@@ -87,19 +87,19 @@ public class ProductoService implements Serializable {
             predicates.add(idPredicate);
         }
 
-        if (filter.hasParam("minPrice") && filter.hasParam("maxPrice")) {
+        if (filter.hasParam("precioMin") && filter.hasParam("precioMax")) {
             Predicate<Producto> minMaxPricePredicate = (Producto c) -> c.getPrecio()
-                    >= Double.valueOf((String) filter.getParam("minPrice")) && c.getPrecio()
-                    <= Double.valueOf((String) filter.getParam("maxPrice"));
+                    >= Double.valueOf((String) filter.getParam("precioMin")) && c.getPrecio()
+                    <= Double.valueOf((String) filter.getParam("precioMax"));
             predicates.add(minMaxPricePredicate);
-        } else if (filter.hasParam("minPrice")) {
-            Predicate<Producto> minPricePredicate = (Producto c) -> c.getPrecio()
-                    >= Double.valueOf((String) filter.getParam("minPrice"));
-            predicates.add(minPricePredicate);
-        } else if (filter.hasParam("maxPrice")) {
-            Predicate<Producto> maxPricePredicate = (Producto c) -> c.getPrecio()
-                    <= Double.valueOf((String) filter.getParam("maxPrice"));
-            predicates.add(maxPricePredicate);
+        } else if (filter.hasParam("precioMin")) {
+            Predicate<Producto> precioMinPredicate = (Producto c) -> c.getPrecio()
+                    >= Double.valueOf((String) filter.getParam("precioMin"));
+            predicates.add(precioMinPredicate);
+        } else if (filter.hasParam("precioMax")) {
+            Predicate<Producto> precioMaxPredicate = (Producto c) -> c.getPrecio()
+                    <= Double.valueOf((String) filter.getParam("precioMax"));
+            predicates.add(precioMaxPredicate);
         }
 
         if (has(filter.getEntity())) {
@@ -154,7 +154,7 @@ public class ProductoService implements Serializable {
         return allProductos.stream()
                 .filter(c -> c.getId().equals(id))
                 .findFirst()
-                .orElseThrow(() -> new BusinessException("No se encontro el auto con id " + id));
+                .orElseThrow(() -> new BusinessException("No se encontro el producto con id " + id));
     }
 
     public void update(Producto producto) {

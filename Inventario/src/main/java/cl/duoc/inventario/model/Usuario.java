@@ -7,23 +7,25 @@ import java.util.Objects;
  *
  * @author Alvaro San Martín
  */
-public class Producto implements Serializable, Comparable<Producto>{
+public class Usuario implements Serializable, Comparable<Usuario>{
     
     private Integer id;
     private String nombre;
-    private Double precio;
+    private String userName;
+    private String clave;
+    
+    public Usuario(Integer id) {
+        this.id = id;
+    }
 
-    public Producto(Integer id, String nombre, Double precio) {
+    public Usuario(Integer id, String nombre, String userName, String clave) {
         this.id = id;
         this.nombre = nombre;
-        this.precio = precio;
+        this.userName = userName;
+        this.clave = clave;
     }
 
-    public Producto(Integer id) {
-        this.id = id;
-    }
-
-    public Producto() {
+    public Usuario() {
     }
 
     public Integer getId() {
@@ -40,37 +42,44 @@ public class Producto implements Serializable, Comparable<Producto>{
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }    
+
+    public String getUserName() {
+        return userName;
     }
 
-    public Double getPrecio() {
-        return precio;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
-    public void setPrecio(Double precio) {
-        this.precio = precio;
+    public String getClave() {
+        return clave;
+    }
+
+    public void setClave(String clave) {
+        this.clave = clave;
     }
     
-    public Producto precio(Double precio) {
-        this.precio = precio;
+    public Usuario clave(String clave) {
+        this.clave = clave;
         return this;
     }
     
+    public Usuario userName(String userName) {
+        this.userName = userName;
+        return this;
+    }
     
-    public Producto nombre(String nombre) {
+    public Usuario nombre(String nombre) {
         this.nombre = nombre;
         return this;
     }
 
-    public Producto id(Integer id) {
+    public Usuario id(Integer id) {
         this.id = id;
         return this;
     }
-    
-    @Override
-    public String toString() {
-        return "Producto{" + "id=" + id + ", nombre=" + nombre + ", precio=" + precio + '}';
-    }
-    
+        
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -90,24 +99,27 @@ public class Producto implements Serializable, Comparable<Producto>{
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Producto other = (Producto) obj;
+        final Usuario other = (Usuario) obj;
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
         return true;
     }
-
     
     public boolean hasNombre() {
         return nombre != null && !"".equals(nombre.trim());
     }
     
-    public boolean hasPrecio() {
-        return precio != null;
+    public boolean hasUserName() {
+        return userName != null && !"".equals(userName.trim());
+    }
+    
+    public boolean hasClave() {
+        return clave != null && !"".equals(clave.trim());
     }
 
     @Override
-    public int compareTo(Producto o) {
+    public int compareTo(Usuario o) {
         return this.id.compareTo(o.getId());
     }
 }

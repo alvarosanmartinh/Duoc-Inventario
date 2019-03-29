@@ -1,7 +1,7 @@
 package cl.duoc.inventario.bean;
 
-import cl.duoc.inventario.model.Producto;
-import cl.duoc.inventario.service.ProductoService;
+import cl.duoc.inventario.model.Usuario;
+import cl.duoc.inventario.service.UsuarioService;
 import org.omnifaces.cdi.ViewScoped;
 import org.omnifaces.util.Faces;
 
@@ -19,24 +19,24 @@ import static com.github.adminfaces.template.util.Assert.has;
  */
 @Named
 @ViewScoped
-public class ProductoFormMB implements Serializable {
+public class UsuarioFormMB implements Serializable {
 
 
     private Integer id;
-    private Producto producto;
+    private Usuario usuario;
 
 
     @Inject
-    ProductoService productoService;
+    UsuarioService usuarioService;
 
     public void init() {
         if(Faces.isAjaxRequest()){
            return;
         }
         if (has(id)) {
-            producto = productoService.findById(id);
+            usuario = usuarioService.findById(id);
         } else {
-            producto = new Producto();
+            usuario = new Usuario();
         }
     }
 
@@ -48,18 +48,18 @@ public class ProductoFormMB implements Serializable {
         this.id = id;
     }
 
-    public Producto getProducto() {
-        return producto;
+    public Usuario getUsuario() {
+        return usuario;
     }
 
-    public void setProducto(Producto producto) {
-        this.producto = producto;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     public void remove() throws IOException {
-        if (has(producto) && has(producto.getId())) {
-            productoService.remove(producto);
-            addDetailMessage("Producto " + producto.getNombre()
+        if (has(usuario) && has(usuario.getId())) {
+            usuarioService.remove(usuario);
+            addDetailMessage("Usuario " + usuario.getNombre()
                     + " ha sido eliminado");
             Faces.getFlash().setKeepMessages(true);
             Faces.redirect("product-list.xhtml");
@@ -68,23 +68,23 @@ public class ProductoFormMB implements Serializable {
 
     public void save() {
         String msg;
-        if (producto.getId() == null) {
-            productoService.insert(producto);
-            msg = "Producto " + producto.getNombre() + " creado";
+        if (usuario.getId() == null) {
+            usuarioService.insert(usuario);
+            msg = "Usuario " + usuario.getNombre() + " creado";
         } else {
-            productoService.update(producto);
-            msg = "Producto " + producto.getNombre() + " actualizado";
+            usuarioService.update(usuario);
+            msg = "Usuario " + usuario.getNombre() + " actualizado";
         }
         addDetailMessage(msg);
     }
 
     public void clear() {
-        producto = new Producto();
+        usuario = new Usuario();
         id = null;
     }
 
     public boolean isNew() {
-        return producto == null || producto.getId() == null;
+        return usuario == null || usuario.getId() == null;
     }
 
 
