@@ -69,7 +69,7 @@
                         <p:column selectionMode="multiple" width="5%" styleClass="align-center"/>
 
                         <p:column headerText="Nombre">
-                            <p:link value="#{c.nombre}" outcome="usuario-form.xhtml" >
+                            <p:link value="#{c.nombre}" outcome="#{navigationBean.redirectUsuarioForm()}" >
                                 <f:param name="id" value="#{c.id}"/>
                             </p:link>
                         </p:column>
