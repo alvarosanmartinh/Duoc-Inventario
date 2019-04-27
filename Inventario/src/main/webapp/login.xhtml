@@ -90,20 +90,20 @@
                     <p:messages closable="true"/>
 
                     <div class="form-group has-feedback">
-                        <p:inputText value="#{logonMB.user}" type="text" styleClass="form-control" placeholder="Usuario"
+                        <p:inputText value="#{logonMB.email}" type="text" styleClass="form-control" placeholder="Usuario"
                                      required="true"
                                      requiredMessage="Ingrese su nombre de usuario"/>
                         <i class="fa fa-user form-control-feedback" ></i>
                     </div>
                     <div class="form-group has-feedback">
-                        <p:inputText value="#{logonMB.clave}" type="password" styleClass="form-control"
+                        <p:inputText value="#{logonMB.password}" type="password" styleClass="form-control"
                                      placeholder="Clave secreta" required="true"
                                      requiredMessage="Ingrese su clave"/>
                         <i class="fa fa-lock form-control-feedback" style="font-size: 18px"></i>
                     </div>
                     <div class="row">
                         <div class="col-xs-12">
-                            <p:selectBooleanCheckbox itemLabel="Recuerdame" value="#{logonMB.recordar}"/>
+                            <p:selectBooleanCheckbox itemLabel="Recuerdame" value="#{logonMB.remember}"/>
                         </div>
                         <p:spacer height="10"/>
                         <div class="col-xs-12">
