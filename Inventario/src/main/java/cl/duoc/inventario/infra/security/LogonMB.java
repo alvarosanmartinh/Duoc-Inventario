@@ -1,17 +1,16 @@
 package cl.duoc.inventario.infra.security;
 
-import static cl.duoc.inventario.util.Utils.addDetailMessage;
-import com.github.adminfaces.template.session.AdminSession;
 import org.omnifaces.util.Faces;
 
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.inject.Specializes;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import java.io.IOException;
 import java.io.Serializable;
 
-import com.github.adminfaces.template.config.AdminConfig;
-import javax.inject.Inject;
+import static cl.duoc.inventario.util.Utils.addDetailMessage;
+import com.github.adminfaces.template.session.AdminSession;
 
 /**
  * Created by rmpestano on 12/20/14.
@@ -30,18 +29,16 @@ import javax.inject.Inject;
 public class LogonMB extends AdminSession implements Serializable {
 
     private String currentUser;
-    private String email;
-    private String password;
-    private boolean remember;
-    @Inject
-    private AdminConfig adminConfig;
+    private String user;
+    private String clave;
+    private boolean recordar;
 
 
     public void login() throws IOException {
-        currentUser = email;
-        addDetailMessage("Logged in successfully as <b>" + email + "</b>");
+        currentUser = user;
+        addDetailMessage("Has iniciado sesion como <b>" + user + "</b>");
         Faces.getExternalContext().getFlash().setKeepMessages(true);
-        Faces.redirect(adminConfig.getIndexPage());
+        Faces.redirect("index.xhtml");
     }
 
     @Override
@@ -49,30 +46,36 @@ public class LogonMB extends AdminSession implements Serializable {
 
         return currentUser != null;
     }
+    
+    public void logout() throws IOException {
+        currentUser = null;
+        Faces.redirect("login.xhtml");
+    } 
 
-    public String getEmail() {
-        return email;
+    public String getUser() {
+        return user;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setUser(String user) {
+        this.user = user;
     }
 
-    public String getPassword() {
-        return password;
+    public String getClave() {
+        return clave;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setClave(String clave) {
+        this.clave = clave;
     }
 
-    public boolean isRemember() {
-        return remember;
+    public boolean isRecordar() {
+        return recordar;
     }
 
-    public void setRemember(boolean remember) {
-        this.remember = remember;
+    public void setRecordar(boolean recordar) {
+        this.recordar = recordar;
     }
+
 
     public String getCurrentUser() {
         return currentUser;
