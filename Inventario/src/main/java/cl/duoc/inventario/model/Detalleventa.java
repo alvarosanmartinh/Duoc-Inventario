@@ -27,32 +27,14 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  * @author Alvaro
  */
-@Entity
-@Table(name = "detalleventa", catalog = "inventario", schema = "")
-@XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Detalleventa.findAll", query = "SELECT d FROM Detalleventa d")
-    , @NamedQuery(name = "Detalleventa.findByIdDetVenta", query = "SELECT d FROM Detalleventa d WHERE d.idDetVenta = :idDetVenta")
-    , @NamedQuery(name = "Detalleventa.findByCantidad", query = "SELECT d FROM Detalleventa d WHERE d.cantidad = :cantidad")
-    , @NamedQuery(name = "Detalleventa.findByTotal", query = "SELECT d FROM Detalleventa d WHERE d.total = :total")})
+
 public class Detalleventa implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "IdDetVenta")
     private Integer idDetVenta;
-    @Basic(optional = false)
-    @Column(name = "Cantidad")
     private int cantidad;
-    @Basic(optional = false)
-    @Column(name = "Total")
     private int total;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "detalleventa", fetch = FetchType.LAZY)
     private Venta venta;
-    @JoinColumn(name = "CodigoProducto", referencedColumnName = "Codigo")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Producto codigoProducto;
 
     public Detalleventa() {
@@ -128,9 +110,5 @@ public class Detalleventa implements Serializable {
         return true;
     }
 
-    @Override
-    public String toString() {
-        return "cl.duoc.inventario.entities.Detalleventa[ idDetVenta=" + idDetVenta + " ]";
-    }
     
 }
