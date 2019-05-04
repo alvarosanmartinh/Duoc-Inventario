@@ -49,10 +49,11 @@ CREATE TABLE IF NOT EXISTS `categoria` (
 
 DROP TABLE IF EXISTS `contacto`;
 CREATE TABLE IF NOT EXISTS `contacto` (
+  `id` varchar(100) NOT NULL,
   `email` varchar(100) NOT NULL,
   `nombre` varchar(100) NOT NULL,
   `telefono` varchar(12) NOT NULL,
-  `Motivo` varchar(20) NOT NULL,
+  `motivo` varchar(20) NOT NULL,
   `requerimiento` varchar(150) NOT NULL,
   PRIMARY KEY (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -143,6 +144,7 @@ CREATE TABLE IF NOT EXISTS `subcategoria` (
 
 DROP TABLE IF EXISTS `usuario`;
 CREATE TABLE IF NOT EXISTS `usuario` (
+`Id` varchar(12) NOT NULL,
   `Rut` varchar(12) NOT NULL,
   `Clave` varchar(20) NOT NULL,
   `Nombre` varchar(100) NOT NULL,
@@ -152,10 +154,10 @@ CREATE TABLE IF NOT EXISTS `usuario` (
   `Tipo` varchar(20) NOT NULL,
   `Eliminado` varchar(45) NOT NULL,
   `Username` varchar(45) NOT NULL,
-  PRIMARY KEY (`Rut`),
+  PRIMARY KEY (`Id`),
   KEY `Email` (`Email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
+	
 -- --------------------------------------------------------
 
 --
@@ -165,11 +167,11 @@ CREATE TABLE IF NOT EXISTS `usuario` (
 DROP TABLE IF EXISTS `venta`;
 CREATE TABLE IF NOT EXISTS `venta` (
   `IdVenta` int(11) NOT NULL AUTO_INCREMENT,
-  `RutCliente` varchar(20) NOT NULL,
+  `IdUsuario` varchar(20) NOT NULL,
   `fecha` date NOT NULL,
   `eliminado` varchar(45) NOT NULL,
   PRIMARY KEY (`IdVenta`),
-  KEY `RutCliente` (`RutCliente`)
+  KEY `IdUsuario` (`IdUsuario`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -207,7 +209,7 @@ ALTER TABLE `usuario`
 --
 ALTER TABLE `venta`
   ADD CONSTRAINT `venta_ibfk_1` FOREIGN KEY (`IdVenta`) REFERENCES `detalleventa` (`IdDetVenta`),
-  ADD CONSTRAINT `venta_ibfk_2` FOREIGN KEY (`RutCliente`) REFERENCES `usuario` (`Rut`);
+  ADD CONSTRAINT `venta_ibfk_2` FOREIGN KEY (`IdUsuario`) REFERENCES `usuario` (`Id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
