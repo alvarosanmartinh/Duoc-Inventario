@@ -3,13 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cl.duoc.inventario.entity;
+package cl.duoc.inventario.entities;
 
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -23,17 +24,18 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author ghost-pc
+ * @author Alvaro
  */
 @Entity
 @Table(name = "detalleventa", catalog = "inventario", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Detalleventa.findAll", query = "SELECT d FROM Detalleventa d"),
-    @NamedQuery(name = "Detalleventa.findByIdDetVenta", query = "SELECT d FROM Detalleventa d WHERE d.idDetVenta = :idDetVenta"),
-    @NamedQuery(name = "Detalleventa.findByCantidad", query = "SELECT d FROM Detalleventa d WHERE d.cantidad = :cantidad"),
-    @NamedQuery(name = "Detalleventa.findByTotal", query = "SELECT d FROM Detalleventa d WHERE d.total = :total")})
-public class DetalleVenta implements Serializable {
+    @NamedQuery(name = "Detalleventa.findAll", query = "SELECT d FROM Detalleventa d")
+    , @NamedQuery(name = "Detalleventa.findByIdDetVenta", query = "SELECT d FROM Detalleventa d WHERE d.idDetVenta = :idDetVenta")
+    , @NamedQuery(name = "Detalleventa.findByCantidad", query = "SELECT d FROM Detalleventa d WHERE d.cantidad = :cantidad")
+    , @NamedQuery(name = "Detalleventa.findByTotal", query = "SELECT d FROM Detalleventa d WHERE d.total = :total")})
+public class Detalleventa implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,20 +48,20 @@ public class DetalleVenta implements Serializable {
     @Basic(optional = false)
     @Column(name = "Total")
     private int total;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "detalleventa")
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "detalleventa", fetch = FetchType.LAZY)
     private Venta venta;
     @JoinColumn(name = "CodigoProducto", referencedColumnName = "Codigo")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Producto codigoProducto;
 
-    public DetalleVenta() {
+    public Detalleventa() {
     }
 
-    public DetalleVenta(Integer idDetVenta) {
+    public Detalleventa(Integer idDetVenta) {
         this.idDetVenta = idDetVenta;
     }
 
-    public DetalleVenta(Integer idDetVenta, int cantidad, int total) {
+    public Detalleventa(Integer idDetVenta, int cantidad, int total) {
         this.idDetVenta = idDetVenta;
         this.cantidad = cantidad;
         this.total = total;
@@ -115,10 +117,10 @@ public class DetalleVenta implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof DetalleVenta)) {
+        if (!(object instanceof Detalleventa)) {
             return false;
         }
-        DetalleVenta other = (DetalleVenta) object;
+        Detalleventa other = (Detalleventa) object;
         if ((this.idDetVenta == null && other.idDetVenta != null) || (this.idDetVenta != null && !this.idDetVenta.equals(other.idDetVenta))) {
             return false;
         }
@@ -127,7 +129,7 @@ public class DetalleVenta implements Serializable {
 
     @Override
     public String toString() {
-        return "cl.duoc.inventario.entity.Detalleventa[ idDetVenta=" + idDetVenta + " ]";
+        return "cl.duoc.inventario.entities.Detalleventa[ idDetVenta=" + idDetVenta + " ]";
     }
     
 }

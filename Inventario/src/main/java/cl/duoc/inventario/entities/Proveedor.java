@@ -3,14 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cl.duoc.inventario.entity;
+package cl.duoc.inventario.entities;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -23,21 +24,22 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author ghost-pc
+ * @author Alvaro
  */
 @Entity
 @Table(name = "proveedor", catalog = "inventario", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Proveedor.findAll", query = "SELECT p FROM Proveedor p"),
-    @NamedQuery(name = "Proveedor.findByIdProveedor", query = "SELECT p FROM Proveedor p WHERE p.idProveedor = :idProveedor"),
-    @NamedQuery(name = "Proveedor.findByNombre", query = "SELECT p FROM Proveedor p WHERE p.nombre = :nombre"),
-    @NamedQuery(name = "Proveedor.findByDescripcion", query = "SELECT p FROM Proveedor p WHERE p.descripcion = :descripcion"),
-    @NamedQuery(name = "Proveedor.findByTelefono", query = "SELECT p FROM Proveedor p WHERE p.telefono = :telefono"),
-    @NamedQuery(name = "Proveedor.findByDireccion", query = "SELECT p FROM Proveedor p WHERE p.direccion = :direccion"),
-    @NamedQuery(name = "Proveedor.findByEmail", query = "SELECT p FROM Proveedor p WHERE p.email = :email"),
-    @NamedQuery(name = "Proveedor.findByEliminado", query = "SELECT p FROM Proveedor p WHERE p.eliminado = :eliminado")})
+    @NamedQuery(name = "Proveedor.findAll", query = "SELECT p FROM Proveedor p")
+    , @NamedQuery(name = "Proveedor.findByIdProveedor", query = "SELECT p FROM Proveedor p WHERE p.idProveedor = :idProveedor")
+    , @NamedQuery(name = "Proveedor.findByNombre", query = "SELECT p FROM Proveedor p WHERE p.nombre = :nombre")
+    , @NamedQuery(name = "Proveedor.findByDescripcion", query = "SELECT p FROM Proveedor p WHERE p.descripcion = :descripcion")
+    , @NamedQuery(name = "Proveedor.findByTelefono", query = "SELECT p FROM Proveedor p WHERE p.telefono = :telefono")
+    , @NamedQuery(name = "Proveedor.findByDireccion", query = "SELECT p FROM Proveedor p WHERE p.direccion = :direccion")
+    , @NamedQuery(name = "Proveedor.findByEmail", query = "SELECT p FROM Proveedor p WHERE p.email = :email")
+    , @NamedQuery(name = "Proveedor.findByEliminado", query = "SELECT p FROM Proveedor p WHERE p.eliminado = :eliminado")})
 public class Proveedor implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -62,8 +64,8 @@ public class Proveedor implements Serializable {
     @Basic(optional = false)
     @Column(name = "Eliminado")
     private String eliminado;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "proveedor")
-    private Collection<Producto> productosCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "proveedor", fetch = FetchType.LAZY)
+    private List<Producto> productoList;
 
     public Proveedor() {
     }
@@ -139,12 +141,12 @@ public class Proveedor implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Producto> getProductosCollection() {
-        return productosCollection;
+    public List<Producto> getProductoList() {
+        return productoList;
     }
 
-    public void setProductosCollection(Collection<Producto> productosCollection) {
-        this.productosCollection = productosCollection;
+    public void setProductoList(List<Producto> productoList) {
+        this.productoList = productoList;
     }
 
     @Override
@@ -169,7 +171,7 @@ public class Proveedor implements Serializable {
 
     @Override
     public String toString() {
-        return "cl.duoc.inventario.entity.Proveedor[ idProveedor=" + idProveedor + " ]";
+        return "cl.duoc.inventario.entities.Proveedor[ idProveedor=" + idProveedor + " ]";
     }
     
 }

@@ -3,14 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cl.duoc.inventario.entity;
+package cl.duoc.inventario.entities;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -23,18 +24,19 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author ghost-pc
+ * @author Alvaro
  */
 @Entity
 @Table(name = "categoria", catalog = "inventario", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Categoria.findAll", query = "SELECT c FROM Categoria c"),
-    @NamedQuery(name = "Categoria.findByIdCategoria", query = "SELECT c FROM Categoria c WHERE c.idCategoria = :idCategoria"),
-    @NamedQuery(name = "Categoria.findByNombre", query = "SELECT c FROM Categoria c WHERE c.nombre = :nombre"),
-    @NamedQuery(name = "Categoria.findByDescripcion", query = "SELECT c FROM Categoria c WHERE c.descripcion = :descripcion"),
-    @NamedQuery(name = "Categoria.findByEliminado", query = "SELECT c FROM Categoria c WHERE c.eliminado = :eliminado")})
+    @NamedQuery(name = "Categoria.findAll", query = "SELECT c FROM Categoria c")
+    , @NamedQuery(name = "Categoria.findByIdCategoria", query = "SELECT c FROM Categoria c WHERE c.idCategoria = :idCategoria")
+    , @NamedQuery(name = "Categoria.findByNombre", query = "SELECT c FROM Categoria c WHERE c.nombre = :nombre")
+    , @NamedQuery(name = "Categoria.findByDescripcion", query = "SELECT c FROM Categoria c WHERE c.descripcion = :descripcion")
+    , @NamedQuery(name = "Categoria.findByEliminado", query = "SELECT c FROM Categoria c WHERE c.eliminado = :eliminado")})
 public class Categoria implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,8 +52,8 @@ public class Categoria implements Serializable {
     @Basic(optional = false)
     @Column(name = "Eliminado")
     private String eliminado;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "categoria")
-    private Collection<Subcategoria> subcategoriaCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "categoria", fetch = FetchType.LAZY)
+    private List<Subcategoria> subcategoriaList;
 
     public Categoria() {
     }
@@ -100,12 +102,12 @@ public class Categoria implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Subcategoria> getSubcategoriaCollection() {
-        return subcategoriaCollection;
+    public List<Subcategoria> getSubcategoriaList() {
+        return subcategoriaList;
     }
 
-    public void setSubcategoriaCollection(Collection<Subcategoria> subcategoriaCollection) {
-        this.subcategoriaCollection = subcategoriaCollection;
+    public void setSubcategoriaList(List<Subcategoria> subcategoriaList) {
+        this.subcategoriaList = subcategoriaList;
     }
 
     @Override
@@ -130,7 +132,7 @@ public class Categoria implements Serializable {
 
     @Override
     public String toString() {
-        return "cl.duoc.inventario.entity.Categoria[ idCategoria=" + idCategoria + " ]";
+        return "cl.duoc.inventario.entities.Categoria[ idCategoria=" + idCategoria + " ]";
     }
     
 }

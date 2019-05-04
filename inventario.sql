@@ -151,6 +151,7 @@ CREATE TABLE IF NOT EXISTS `usuario` (
   `Telefono` varchar(15) NOT NULL,
   `Tipo` varchar(20) NOT NULL,
   `Eliminado` varchar(45) NOT NULL,
+  `Username` varchar(45) NOT NULL,
   PRIMARY KEY (`Rut`),
   KEY `Email` (`Email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;

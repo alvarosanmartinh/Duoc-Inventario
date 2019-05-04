@@ -3,14 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cl.duoc.inventario.entity;
+package cl.duoc.inventario.entities;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -21,19 +22,20 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author ghost-pc
+ * @author Alvaro
  */
 @Entity
 @Table(name = "contacto", catalog = "inventario", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Contacto.findAll", query = "SELECT c FROM Contacto c"),
-    @NamedQuery(name = "Contacto.findByEmail", query = "SELECT c FROM Contacto c WHERE c.email = :email"),
-    @NamedQuery(name = "Contacto.findByNombre", query = "SELECT c FROM Contacto c WHERE c.nombre = :nombre"),
-    @NamedQuery(name = "Contacto.findByTelefono", query = "SELECT c FROM Contacto c WHERE c.telefono = :telefono"),
-    @NamedQuery(name = "Contacto.findByMotivo", query = "SELECT c FROM Contacto c WHERE c.motivo = :motivo"),
-    @NamedQuery(name = "Contacto.findByRequerimiento", query = "SELECT c FROM Contacto c WHERE c.requerimiento = :requerimiento")})
+    @NamedQuery(name = "Contacto.findAll", query = "SELECT c FROM Contacto c")
+    , @NamedQuery(name = "Contacto.findByEmail", query = "SELECT c FROM Contacto c WHERE c.email = :email")
+    , @NamedQuery(name = "Contacto.findByNombre", query = "SELECT c FROM Contacto c WHERE c.nombre = :nombre")
+    , @NamedQuery(name = "Contacto.findByTelefono", query = "SELECT c FROM Contacto c WHERE c.telefono = :telefono")
+    , @NamedQuery(name = "Contacto.findByMotivo", query = "SELECT c FROM Contacto c WHERE c.motivo = :motivo")
+    , @NamedQuery(name = "Contacto.findByRequerimiento", query = "SELECT c FROM Contacto c WHERE c.requerimiento = :requerimiento")})
 public class Contacto implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -51,8 +53,8 @@ public class Contacto implements Serializable {
     @Basic(optional = false)
     @Column(name = "requerimiento")
     private String requerimiento;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "email")
-    private Collection<Usuario> usuarioCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "email", fetch = FetchType.LAZY)
+    private List<Usuario> usuarioList;
 
     public Contacto() {
     }
@@ -110,12 +112,12 @@ public class Contacto implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Usuario> getUsuarioCollection() {
-        return usuarioCollection;
+    public List<Usuario> getUsuarioList() {
+        return usuarioList;
     }
 
-    public void setUsuarioCollection(Collection<Usuario> usuarioCollection) {
-        this.usuarioCollection = usuarioCollection;
+    public void setUsuarioList(List<Usuario> usuarioList) {
+        this.usuarioList = usuarioList;
     }
 
     @Override
@@ -140,7 +142,7 @@ public class Contacto implements Serializable {
 
     @Override
     public String toString() {
-        return "cl.duoc.inventario.entity.Contacto[ email=" + email + " ]";
+        return "cl.duoc.inventario.entities.Contacto[ email=" + email + " ]";
     }
     
 }

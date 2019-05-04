@@ -3,14 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cl.duoc.inventario.entity;
+package cl.duoc.inventario.entities;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -26,26 +27,27 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author ghost-pc
+ * @author Alvaro
  */
 @Entity
 @Table(name = "producto", catalog = "inventario", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Producto.findAll", query = "SELECT p FROM Producto p"),
-    @NamedQuery(name = "Producto.findByCodigo", query = "SELECT p FROM Producto p WHERE p.codigo = :codigo"),
-    @NamedQuery(name = "Producto.findByAnio", query = "SELECT p FROM Producto p WHERE p.anio = :anio"),
-    @NamedQuery(name = "Producto.findByMarca", query = "SELECT p FROM Producto p WHERE p.marca = :marca"),
-    @NamedQuery(name = "Producto.findByModelo", query = "SELECT p FROM Producto p WHERE p.modelo = :modelo"),
-    @NamedQuery(name = "Producto.findByTipo", query = "SELECT p FROM Producto p WHERE p.tipo = :tipo"),
-    @NamedQuery(name = "Producto.findByMedida", query = "SELECT p FROM Producto p WHERE p.medida = :medida"),
-    @NamedQuery(name = "Producto.findByDescripcion", query = "SELECT p FROM Producto p WHERE p.descripcion = :descripcion"),
-    @NamedQuery(name = "Producto.findByCantidad", query = "SELECT p FROM Producto p WHERE p.cantidad = :cantidad"),
-    @NamedQuery(name = "Producto.findByValor", query = "SELECT p FROM Producto p WHERE p.valor = :valor"),
-    @NamedQuery(name = "Producto.findByNombre", query = "SELECT p FROM Producto p WHERE p.nombre = :nombre"),
-    @NamedQuery(name = "Producto.findByEstado", query = "SELECT p FROM Producto p WHERE p.estado = :estado"),
-    @NamedQuery(name = "Producto.findByStockAdmin", query = "SELECT p FROM Producto p WHERE p.stockAdmin = :stockAdmin")})
+    @NamedQuery(name = "Producto.findAll", query = "SELECT p FROM Producto p")
+    , @NamedQuery(name = "Producto.findByCodigo", query = "SELECT p FROM Producto p WHERE p.codigo = :codigo")
+    , @NamedQuery(name = "Producto.findByAnho", query = "SELECT p FROM Producto p WHERE p.anho = :anho")
+    , @NamedQuery(name = "Producto.findByMarca", query = "SELECT p FROM Producto p WHERE p.marca = :marca")
+    , @NamedQuery(name = "Producto.findByModelo", query = "SELECT p FROM Producto p WHERE p.modelo = :modelo")
+    , @NamedQuery(name = "Producto.findByTipo", query = "SELECT p FROM Producto p WHERE p.tipo = :tipo")
+    , @NamedQuery(name = "Producto.findByMedida", query = "SELECT p FROM Producto p WHERE p.medida = :medida")
+    , @NamedQuery(name = "Producto.findByDescripcion", query = "SELECT p FROM Producto p WHERE p.descripcion = :descripcion")
+    , @NamedQuery(name = "Producto.findByCantidad", query = "SELECT p FROM Producto p WHERE p.cantidad = :cantidad")
+    , @NamedQuery(name = "Producto.findByValor", query = "SELECT p FROM Producto p WHERE p.valor = :valor")
+    , @NamedQuery(name = "Producto.findByNombre", query = "SELECT p FROM Producto p WHERE p.nombre = :nombre")
+    , @NamedQuery(name = "Producto.findByEstado", query = "SELECT p FROM Producto p WHERE p.estado = :estado")
+    , @NamedQuery(name = "Producto.findByStockAdmin", query = "SELECT p FROM Producto p WHERE p.stockAdmin = :stockAdmin")})
 public class Producto implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -53,8 +55,8 @@ public class Producto implements Serializable {
     @Column(name = "Codigo")
     private Integer codigo;
     @Basic(optional = false)
-    @Column(name = "Anio")
-    private int anio;
+    @Column(name = "Anho")
+    private int anho;
     @Basic(optional = false)
     @Column(name = "Marca")
     private String marca;
@@ -85,15 +87,15 @@ public class Producto implements Serializable {
     @Basic(optional = false)
     @Column(name = "StockAdmin")
     private int stockAdmin;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "producto")
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "producto", fetch = FetchType.LAZY)
     private Subcategoria subcategoria;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "codigoProducto")
-    private Collection<DetalleVenta> detalleVentaCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "codigoProducto", fetch = FetchType.LAZY)
+    private List<Detalleventa> detalleventaList;
     @JoinColumn(name = "SubCategoria", referencedColumnName = "IdSubCategoria")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Subcategoria subCategoria;
     @JoinColumn(name = "Proveedor", referencedColumnName = "IdProveedor")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Proveedor proveedor;
 
     public Producto() {
@@ -103,9 +105,9 @@ public class Producto implements Serializable {
         this.codigo = codigo;
     }
 
-    public Producto(Integer codigo, int anio, String marca, String modelo, String tipo, String medida, String descripcion, int cantidad, int valor, String nombre, String estado, int stockAdmin) {
+    public Producto(Integer codigo, int anho, String marca, String modelo, String tipo, String medida, String descripcion, int cantidad, int valor, String nombre, String estado, int stockAdmin) {
         this.codigo = codigo;
-        this.anio = anio;
+        this.anho = anho;
         this.marca = marca;
         this.modelo = modelo;
         this.tipo = tipo;
@@ -126,12 +128,12 @@ public class Producto implements Serializable {
         this.codigo = codigo;
     }
 
-    public int getAnio() {
-        return anio;
+    public int getAnho() {
+        return anho;
     }
 
-    public void setAnio(int anio) {
-        this.anio = anio;
+    public void setAnho(int anho) {
+        this.anho = anho;
     }
 
     public String getMarca() {
@@ -223,12 +225,12 @@ public class Producto implements Serializable {
     }
 
     @XmlTransient
-    public Collection<DetalleVenta> getDetalleventaCollection() {
-        return detalleVentaCollection;
+    public List<Detalleventa> getDetalleventaList() {
+        return detalleventaList;
     }
 
-    public void setDetalleVentaCollection(Collection<DetalleVenta> detalleVentaCollection) {
-        this.detalleVentaCollection = detalleVentaCollection;
+    public void setDetalleventaList(List<Detalleventa> detalleventaList) {
+        this.detalleventaList = detalleventaList;
     }
 
     public Subcategoria getSubCategoria() {
@@ -269,7 +271,7 @@ public class Producto implements Serializable {
 
     @Override
     public String toString() {
-        return "cl.duoc.inventario.entity.Producto[ codigo=" + codigo + " ]";
+        return "cl.duoc.inventario.entities.Producto[ codigo=" + codigo + " ]";
     }
     
 }

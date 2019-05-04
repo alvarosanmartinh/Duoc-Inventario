@@ -3,14 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cl.duoc.inventario.entity;
+package cl.duoc.inventario.entities;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -26,18 +27,19 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author ghost-pc
+ * @author Alvaro
  */
 @Entity
 @Table(name = "subcategoria", catalog = "inventario", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Subcategoria.findAll", query = "SELECT s FROM Subcategoria s"),
-    @NamedQuery(name = "Subcategoria.findByIdSubCategoria", query = "SELECT s FROM Subcategoria s WHERE s.idSubCategoria = :idSubCategoria"),
-    @NamedQuery(name = "Subcategoria.findByNombre", query = "SELECT s FROM Subcategoria s WHERE s.nombre = :nombre"),
-    @NamedQuery(name = "Subcategoria.findByDescripcion", query = "SELECT s FROM Subcategoria s WHERE s.descripcion = :descripcion"),
-    @NamedQuery(name = "Subcategoria.findByEliminado", query = "SELECT s FROM Subcategoria s WHERE s.eliminado = :eliminado")})
+    @NamedQuery(name = "Subcategoria.findAll", query = "SELECT s FROM Subcategoria s")
+    , @NamedQuery(name = "Subcategoria.findByIdSubCategoria", query = "SELECT s FROM Subcategoria s WHERE s.idSubCategoria = :idSubCategoria")
+    , @NamedQuery(name = "Subcategoria.findByNombre", query = "SELECT s FROM Subcategoria s WHERE s.nombre = :nombre")
+    , @NamedQuery(name = "Subcategoria.findByDescripcion", query = "SELECT s FROM Subcategoria s WHERE s.descripcion = :descripcion")
+    , @NamedQuery(name = "Subcategoria.findByEliminado", query = "SELECT s FROM Subcategoria s WHERE s.eliminado = :eliminado")})
 public class Subcategoria implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -54,13 +56,13 @@ public class Subcategoria implements Serializable {
     @Column(name = "Eliminado")
     private String eliminado;
     @JoinColumn(name = "IdSubCategoria", referencedColumnName = "SubCategoria", insertable = false, updatable = false)
-    @OneToOne(optional = false)
-    private Producto productos;
+    @OneToOne(optional = false, fetch = FetchType.LAZY)
+    private Producto producto;
     @JoinColumn(name = "Categoria", referencedColumnName = "IdCategoria")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Categoria categoria;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "subCategoria")
-    private Collection<Producto> productosCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "subCategoria", fetch = FetchType.LAZY)
+    private List<Producto> productoList;
 
     public Subcategoria() {
     }
@@ -108,12 +110,12 @@ public class Subcategoria implements Serializable {
         this.eliminado = eliminado;
     }
 
-    public Producto getProductos() {
-        return productos;
+    public Producto getProducto() {
+        return producto;
     }
 
-    public void setProductos(Producto productos) {
-        this.productos = productos;
+    public void setProducto(Producto producto) {
+        this.producto = producto;
     }
 
     public Categoria getCategoria() {
@@ -125,12 +127,12 @@ public class Subcategoria implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Producto> getProductosCollection() {
-        return productosCollection;
+    public List<Producto> getProductoList() {
+        return productoList;
     }
 
-    public void setProductosCollection(Collection<Producto> productosCollection) {
-        this.productosCollection = productosCollection;
+    public void setProductoList(List<Producto> productoList) {
+        this.productoList = productoList;
     }
 
     @Override
@@ -155,7 +157,7 @@ public class Subcategoria implements Serializable {
 
     @Override
     public String toString() {
-        return "cl.duoc.inventario.entity.Subcategoria[ idSubCategoria=" + idSubCategoria + " ]";
+        return "cl.duoc.inventario.entities.Subcategoria[ idSubCategoria=" + idSubCategoria + " ]";
     }
     
 }

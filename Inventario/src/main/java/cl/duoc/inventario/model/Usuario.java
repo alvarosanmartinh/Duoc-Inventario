@@ -10,9 +10,7 @@ import java.util.Objects;
 public class Usuario implements Serializable, Comparable<Usuario>{
     
     private Integer id;
-    private String nombre;
     private String userName;
-    private String clave;
     
     public Usuario(Integer id) {
         this.id = id;
@@ -20,9 +18,7 @@ public class Usuario implements Serializable, Comparable<Usuario>{
 
     public Usuario(Integer id, String nombre, String userName, String clave) {
         this.id = id;
-        this.nombre = nombre;
         this.userName = userName;
-        this.clave = clave;
     }
 
     public Usuario() {

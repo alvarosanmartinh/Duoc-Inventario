@@ -3,13 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cl.duoc.inventario.entity;
+package cl.duoc.inventario.entities;
 
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -25,17 +26,18 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author ghost-pc
+ * @author Alvaro
  */
 @Entity
 @Table(name = "venta", catalog = "inventario", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Venta.findAll", query = "SELECT v FROM Venta v"),
-    @NamedQuery(name = "Venta.findByIdVenta", query = "SELECT v FROM Venta v WHERE v.idVenta = :idVenta"),
-    @NamedQuery(name = "Venta.findByFecha", query = "SELECT v FROM Venta v WHERE v.fecha = :fecha"),
-    @NamedQuery(name = "Venta.findByEliminado", query = "SELECT v FROM Venta v WHERE v.eliminado = :eliminado")})
+    @NamedQuery(name = "Venta.findAll", query = "SELECT v FROM Venta v")
+    , @NamedQuery(name = "Venta.findByIdVenta", query = "SELECT v FROM Venta v WHERE v.idVenta = :idVenta")
+    , @NamedQuery(name = "Venta.findByFecha", query = "SELECT v FROM Venta v WHERE v.fecha = :fecha")
+    , @NamedQuery(name = "Venta.findByEliminado", query = "SELECT v FROM Venta v WHERE v.eliminado = :eliminado")})
 public class Venta implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,11 +52,11 @@ public class Venta implements Serializable {
     @Column(name = "eliminado")
     private String eliminado;
     @JoinColumn(name = "IdVenta", referencedColumnName = "IdDetVenta", insertable = false, updatable = false)
-    @OneToOne(optional = false)
-    private DetalleVenta detalleVenta;
-    @JoinColumn(name = "RutCliente", referencedColumnName = "Rut")
-    @ManyToOne(optional = false)
-    private Usuario rutCliente;
+    @OneToOne(optional = false, fetch = FetchType.LAZY)
+    private Detalleventa detalleventa;
+    @JoinColumn(name = "IdUsuario", referencedColumnName = "Id")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    private Usuario idUsuario;
 
     public Venta() {
     }
@@ -93,20 +95,20 @@ public class Venta implements Serializable {
         this.eliminado = eliminado;
     }
 
-    public DetalleVenta getDetalleVenta() {
-        return detalleVenta;
+    public Detalleventa getDetalleventa() {
+        return detalleventa;
     }
 
-    public void setDetalleVenta(DetalleVenta detalleVenta) {
-        this.detalleVenta = detalleVenta;
+    public void setDetalleventa(Detalleventa detalleventa) {
+        this.detalleventa = detalleventa;
     }
 
-    public Usuario getRutCliente() {
-        return rutCliente;
+    public Usuario getIdUsuario() {
+        return idUsuario;
     }
 
-    public void setRutCliente(Usuario rutCliente) {
-        this.rutCliente = rutCliente;
+    public void setIdUsuario(Usuario idUsuario) {
+        this.idUsuario = idUsuario;
     }
 
     @Override
@@ -131,7 +133,7 @@ public class Venta implements Serializable {
 
     @Override
     public String toString() {
-        return "cl.duoc.inventario.entity.Venta[ idVenta=" + idVenta + " ]";
+        return "cl.duoc.inventario.entities.Venta[ idVenta=" + idVenta + " ]";
     }
     
 }

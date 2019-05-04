@@ -3,14 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cl.duoc.inventario.entity;
+package cl.duoc.inventario.entities;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -23,23 +24,29 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author ghost-pc
+ * @author Alvaro
  */
 @Entity
 @Table(name = "usuario", catalog = "inventario", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Usuario.findAll", query = "SELECT u FROM Usuario u"),
-    @NamedQuery(name = "Usuario.findByRut", query = "SELECT u FROM Usuario u WHERE u.rut = :rut"),
-    @NamedQuery(name = "Usuario.findByClave", query = "SELECT u FROM Usuario u WHERE u.clave = :clave"),
-    @NamedQuery(name = "Usuario.findByNombre", query = "SELECT u FROM Usuario u WHERE u.nombre = :nombre"),
-    @NamedQuery(name = "Usuario.findByDireccion", query = "SELECT u FROM Usuario u WHERE u.direccion = :direccion"),
-    @NamedQuery(name = "Usuario.findByTelefono", query = "SELECT u FROM Usuario u WHERE u.telefono = :telefono"),
-    @NamedQuery(name = "Usuario.findByTipo", query = "SELECT u FROM Usuario u WHERE u.tipo = :tipo"),
-    @NamedQuery(name = "Usuario.findByEliminado", query = "SELECT u FROM Usuario u WHERE u.eliminado = :eliminado")})
+    @NamedQuery(name = "Usuario.findAll", query = "SELECT u FROM Usuario u")
+    , @NamedQuery(name = "Usuario.findById", query = "SELECT u FROM Usuario u WHERE u.id = :id")
+    , @NamedQuery(name = "Usuario.findByRut", query = "SELECT u FROM Usuario u WHERE u.rut = :rut")
+    , @NamedQuery(name = "Usuario.findByClave", query = "SELECT u FROM Usuario u WHERE u.clave = :clave")
+    , @NamedQuery(name = "Usuario.findByNombre", query = "SELECT u FROM Usuario u WHERE u.nombre = :nombre")
+    , @NamedQuery(name = "Usuario.findByDireccion", query = "SELECT u FROM Usuario u WHERE u.direccion = :direccion")
+    , @NamedQuery(name = "Usuario.findByTelefono", query = "SELECT u FROM Usuario u WHERE u.telefono = :telefono")
+    , @NamedQuery(name = "Usuario.findByTipo", query = "SELECT u FROM Usuario u WHERE u.tipo = :tipo")
+    , @NamedQuery(name = "Usuario.findByEliminado", query = "SELECT u FROM Usuario u WHERE u.eliminado = :eliminado")
+    , @NamedQuery(name = "Usuario.findByUsername", query = "SELECT u FROM Usuario u WHERE u.username = :username")})
 public class Usuario implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
+    @Basic(optional = false)
+    @Column(name = "Id")
+    private String id;
     @Basic(optional = false)
     @Column(name = "Rut")
     private String rut;
@@ -61,20 +68,24 @@ public class Usuario implements Serializable {
     @Basic(optional = false)
     @Column(name = "Eliminado")
     private String eliminado;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "rutCliente")
-    private Collection<Venta> ventaCollection;
+    @Basic(optional = false)
+    @Column(name = "Username")
+    private String username;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario", fetch = FetchType.LAZY)
+    private List<Venta> ventaList;
     @JoinColumn(name = "Email", referencedColumnName = "email")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Contacto email;
 
     public Usuario() {
     }
 
-    public Usuario(String rut) {
-        this.rut = rut;
+    public Usuario(String id) {
+        this.id = id;
     }
 
-    public Usuario(String rut, String clave, String nombre, String direccion, String telefono, String tipo, String eliminado) {
+    public Usuario(String id, String rut, String clave, String nombre, String direccion, String telefono, String tipo, String eliminado, String username) {
+        this.id = id;
         this.rut = rut;
         this.clave = clave;
         this.nombre = nombre;
@@ -82,6 +93,15 @@ public class Usuario implements Serializable {
         this.telefono = telefono;
         this.tipo = tipo;
         this.eliminado = eliminado;
+        this.username = username;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getRut() {
@@ -140,13 +160,21 @@ public class Usuario implements Serializable {
         this.eliminado = eliminado;
     }
 
-    @XmlTransient
-    public Collection<Venta> getVentaCollection() {
-        return ventaCollection;
+    public String getUsername() {
+        return username;
     }
 
-    public void setVentaCollection(Collection<Venta> ventaCollection) {
-        this.ventaCollection = ventaCollection;
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    @XmlTransient
+    public List<Venta> getVentaList() {
+        return ventaList;
+    }
+
+    public void setVentaList(List<Venta> ventaList) {
+        this.ventaList = ventaList;
     }
 
     public Contacto getEmail() {
@@ -160,7 +188,7 @@ public class Usuario implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (rut != null ? rut.hashCode() : 0);
+        hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
@@ -171,7 +199,7 @@ public class Usuario implements Serializable {
             return false;
         }
         Usuario other = (Usuario) object;
-        if ((this.rut == null && other.rut != null) || (this.rut != null && !this.rut.equals(other.rut))) {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;
@@ -179,7 +207,7 @@ public class Usuario implements Serializable {
 
     @Override
     public String toString() {
-        return "cl.duoc.inventario.entity.Usuario[ rut=" + rut + " ]";
+        return "cl.duoc.inventario.entities.Usuario[ id=" + id + " ]";
     }
     
 }
