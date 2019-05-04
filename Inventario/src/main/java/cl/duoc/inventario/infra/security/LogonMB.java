@@ -50,6 +50,7 @@ public class LogonMB extends AdminSession implements Serializable {
     public void logout() throws IOException {
         currentUser = null;
         Faces.redirect("login.xhtml");
+        //Faces.redirect("index.xhtml");
     } 
 
     public String getUser() {
