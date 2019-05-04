@@ -1,217 +1,204 @@
--- phpMyAdmin SQL Dump
--- version 4.8.4
--- https://www.phpmyadmin.net/
+-- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
--- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 29-04-2019 a las 21:43:07
--- Versión del servidor: 5.7.24
--- Versión de PHP: 7.2.14
-
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
-SET time_zone = "+00:00";
-
+-- Host: localhost    Database: inventario
+-- ------------------------------------------------------
+-- Server version	5.6.43-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Base de datos: `inventario`
+-- Table structure for table `categoria`
 --
 
-DROP SCHEMA IF EXISTS inventario;
-CREATE SCHEMA inventario;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `categoria`
---
-USE inventario;
+drop schema inventario;
+create schema inventario;
 
 DROP TABLE IF EXISTS `categoria`;
-CREATE TABLE IF NOT EXISTS `categoria` (
-  `IdCategoria` int(11) NOT NULL AUTO_INCREMENT,
-  `Nombre` varchar(30) NOT NULL,
-  `Descripcion` varchar(60) NOT NULL,
-  `Eliminado` varchar(10) NOT NULL,
-  PRIMARY KEY (`IdCategoria`)
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `categoria` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(30) NOT NULL,
+  `descripcion` varchar(60) NOT NULL,
+  `eliminado` varchar(10) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Estructura de tabla para la tabla `contacto`
+-- Dumping data for table `categoria`
+--
+
+LOCK TABLES `categoria` WRITE;
+/*!40000 ALTER TABLE `categoria` DISABLE KEYS */;
+/*!40000 ALTER TABLE `categoria` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `contacto`
 --
 
 DROP TABLE IF EXISTS `contacto`;
-CREATE TABLE IF NOT EXISTS `contacto` (
-  `id` varchar(100) NOT NULL,
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `contacto` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `email` varchar(100) NOT NULL,
   `nombre` varchar(100) NOT NULL,
   `telefono` varchar(12) NOT NULL,
   `motivo` varchar(20) NOT NULL,
   `requerimiento` varchar(150) NOT NULL,
-  PRIMARY KEY (`email`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Estructura de tabla para la tabla `detalleventa`
+-- Dumping data for table `contacto`
 --
 
-DROP TABLE IF EXISTS `detalleVenta`;
-CREATE TABLE IF NOT EXISTS `detalleVenta` (
-  `IdDetVenta` int(11) NOT NULL AUTO_INCREMENT,
-  `CodigoProducto` int(11) NOT NULL,
-  `Cantidad` int(11) NOT NULL,
-  `Total` int(11) NOT NULL,
-  PRIMARY KEY (`IdDetVenta`),
-  KEY `CodigoProducto` (`CodigoProducto`)
+LOCK TABLES `contacto` WRITE;
+/*!40000 ALTER TABLE `contacto` DISABLE KEYS */;
+/*!40000 ALTER TABLE `contacto` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `detalleventa`
+--
+
+DROP TABLE IF EXISTS `detalleventa`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `detalleventa` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `producto` int(11) NOT NULL,
+  `cantidad` int(11) NOT NULL,
+  `total` int(11) NOT NULL,
+  `venta` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `venta_idx` (`venta`),
+  KEY `producto_idx` (`producto`),
+  CONSTRAINT `producto` FOREIGN KEY (`producto`) REFERENCES `producto` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `venta` FOREIGN KEY (`venta`) REFERENCES `venta` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Estructura de tabla para la tabla `producto`
+-- Dumping data for table `detalleventa`
+--
+
+LOCK TABLES `detalleventa` WRITE;
+/*!40000 ALTER TABLE `detalleventa` DISABLE KEYS */;
+/*!40000 ALTER TABLE `detalleventa` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `producto`
 --
 
 DROP TABLE IF EXISTS `producto`;
-CREATE TABLE IF NOT EXISTS `producto` (
-  `Codigo` int(11) NOT NULL AUTO_INCREMENT,
-  `Anho` int(11) NOT NULL,
-  `Marca` varchar(45) NOT NULL,
-  `Modelo` varchar(20) NOT NULL,
-  `Tipo` varchar(20) NOT NULL,
-  `Medida` varchar(20) NOT NULL,
-  `Descripcion` varchar(100) NOT NULL,
-  `Cantidad` int(11) NOT NULL,
-  `Valor` int(11) NOT NULL,
-  `SubCategoria` int(11) NOT NULL,
-  `Nombre` varchar(90) NOT NULL,
-  `Proveedor` int(11) NOT NULL,
-  `Estado` varchar(45) NOT NULL,
-  `StockAdmin` int(11) NOT NULL,
-  PRIMARY KEY (`Codigo`),
-  KEY `SubCategoria` (`SubCategoria`),
-  KEY `Proveedor` (`Proveedor`)
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `producto` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `codigo` int(11) NOT NULL,
+  `fechaCreacion` date NOT NULL,
+  `marca` varchar(45) NOT NULL,
+  `modelo` varchar(20) NOT NULL,
+  `tipo` varchar(20) NOT NULL,
+  `medida` varchar(20) NOT NULL,
+  `descripcion` varchar(100) NOT NULL,
+  `cantidad` int(11) NOT NULL,
+  `valor` int(11) NOT NULL,
+  `nombre` varchar(90) NOT NULL,
+  `categoria` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `categoria` FOREIGN KEY (`id`) REFERENCES `categoria` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `proveedor`
---
-
-DROP TABLE IF EXISTS `proveedor`;
-CREATE TABLE IF NOT EXISTS `proveedor` (
-  `IdProveedor` int(11) NOT NULL AUTO_INCREMENT,
-  `Nombre` varchar(80) NOT NULL,
-  `Descripcion` varchar(100) NOT NULL,
-  `Telefono` varchar(15) NOT NULL,
-  `Direccion` varchar(100) NOT NULL,
-  `Email` varchar(100) NOT NULL,
-  `Eliminado` varchar(45) NOT NULL,
-  PRIMARY KEY (`IdProveedor`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Estructura de tabla para la tabla `subcategoria`
+-- Dumping data for table `producto`
 --
 
-DROP TABLE IF EXISTS `subcategoria`;
-CREATE TABLE IF NOT EXISTS `subcategoria` (
-  `IdSubCategoria` int(11) NOT NULL AUTO_INCREMENT,
-  `Categoria` int(11) NOT NULL,
-  `Nombre` varchar(30) NOT NULL,
-  `Descripcion` varchar(60) NOT NULL,
-  `Eliminado` varchar(45) NOT NULL,
-  PRIMARY KEY (`IdSubCategoria`),
-  KEY `Categoria` (`Categoria`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
+LOCK TABLES `producto` WRITE;
+/*!40000 ALTER TABLE `producto` DISABLE KEYS */;
+/*!40000 ALTER TABLE `producto` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Estructura de tabla para la tabla `usuario`
+-- Table structure for table `usuario`
 --
 
 DROP TABLE IF EXISTS `usuario`;
-CREATE TABLE IF NOT EXISTS `usuario` (
-`Id` varchar(12) NOT NULL,
-  `Rut` varchar(12) NOT NULL,
-  `Clave` varchar(20) NOT NULL,
-  `Nombre` varchar(100) NOT NULL,
-  `Email` varchar(100) NOT NULL,
-  `Direccion` varchar(100) NOT NULL,
-  `Telefono` varchar(15) NOT NULL,
-  `Tipo` varchar(20) NOT NULL,
-  `Eliminado` varchar(45) NOT NULL,
-  `Username` varchar(45) NOT NULL,
-  PRIMARY KEY (`Id`),
-  KEY `Email` (`Email`)
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `usuario` (
+  `id` varchar(12) NOT NULL,
+  `rut` varchar(12) NOT NULL,
+  `clave` varchar(20) NOT NULL,
+  `nombre` varchar(100) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `direccion` varchar(100) NOT NULL,
+  `telefono` varchar(15) NOT NULL,
+  `tipo` varchar(20) NOT NULL,
+  `eliminado` varchar(45) NOT NULL,
+  `username` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-	
--- --------------------------------------------------------
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Estructura de tabla para la tabla `venta`
+-- Dumping data for table `usuario`
+--
+
+LOCK TABLES `usuario` WRITE;
+/*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
+/*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `venta`
 --
 
 DROP TABLE IF EXISTS `venta`;
-CREATE TABLE IF NOT EXISTS `venta` (
-  `IdVenta` int(11) NOT NULL AUTO_INCREMENT,
-  `IdUsuario` varchar(20) NOT NULL,
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `venta` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `rutCliente` varchar(20) NOT NULL,
   `fecha` date NOT NULL,
   `eliminado` varchar(45) NOT NULL,
-  PRIMARY KEY (`IdVenta`),
-  KEY `IdUsuario` (`IdUsuario`)
+  PRIMARY KEY (`id`),
+  KEY `usuario_idx` (`rutCliente`),
+  CONSTRAINT `usuario` FOREIGN KEY (`rutCliente`) REFERENCES `usuario` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Restricciones para tablas volcadas
+-- Dumping data for table `venta`
 --
 
---
--- Filtros para la tabla `detalleventa`
---
-ALTER TABLE `detalleventa`
-  ADD CONSTRAINT `detalleventa_ibfk_1` FOREIGN KEY (`CodigoProducto`) REFERENCES `producto` (`Codigo`);
+LOCK TABLES `venta` WRITE;
+/*!40000 ALTER TABLE `venta` DISABLE KEYS */;
+/*!40000 ALTER TABLE `venta` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
---
--- Filtros para la tabla `producto`
---
-ALTER TABLE `producto`
-  ADD CONSTRAINT `producto_ibfk_1` FOREIGN KEY (`SubCategoria`) REFERENCES `subcategoria` (`IdSubCategoria`),
-  ADD CONSTRAINT `producto_ibfk_2` FOREIGN KEY (`Proveedor`) REFERENCES `proveedor` (`IdProveedor`);
-
---
--- Filtros para la tabla `subcategoria`
---
-ALTER TABLE `subcategoria`
-  ADD CONSTRAINT `subcategoria_ibfk_1` FOREIGN KEY (`IdSubCategoria`) REFERENCES `producto` (`SubCategoria`),
-  ADD CONSTRAINT `subcategoria_ibfk_2` FOREIGN KEY (`Categoria`) REFERENCES `categoria` (`IdCategoria`);
-
---
--- Filtros para la tabla `usuario`
---
-ALTER TABLE `usuario`
-  ADD CONSTRAINT `usuario_ibfk_1` FOREIGN KEY (`Email`) REFERENCES `contacto` (`email`);
-
---
--- Filtros para la tabla `venta`
---
-ALTER TABLE `venta`
-  ADD CONSTRAINT `venta_ibfk_1` FOREIGN KEY (`IdVenta`) REFERENCES `detalleventa` (`IdDetVenta`),
-  ADD CONSTRAINT `venta_ibfk_2` FOREIGN KEY (`IdUsuario`) REFERENCES `usuario` (`Id`);
-COMMIT;
-
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2019-05-04 14:20:19
