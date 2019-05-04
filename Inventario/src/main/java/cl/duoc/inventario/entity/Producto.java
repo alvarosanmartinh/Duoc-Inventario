@@ -29,23 +29,23 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author ghost-pc
  */
 @Entity
-@Table(name = "productos", catalog = "inventario", schema = "")
+@Table(name = "producto", catalog = "inventario", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Productos.findAll", query = "SELECT p FROM Productos p"),
-    @NamedQuery(name = "Productos.findByCodigo", query = "SELECT p FROM Productos p WHERE p.codigo = :codigo"),
-    @NamedQuery(name = "Productos.findByAnio", query = "SELECT p FROM Productos p WHERE p.anio = :anio"),
-    @NamedQuery(name = "Productos.findByMarca", query = "SELECT p FROM Productos p WHERE p.marca = :marca"),
-    @NamedQuery(name = "Productos.findByModelo", query = "SELECT p FROM Productos p WHERE p.modelo = :modelo"),
-    @NamedQuery(name = "Productos.findByTipo", query = "SELECT p FROM Productos p WHERE p.tipo = :tipo"),
-    @NamedQuery(name = "Productos.findByMedida", query = "SELECT p FROM Productos p WHERE p.medida = :medida"),
-    @NamedQuery(name = "Productos.findByDescripcion", query = "SELECT p FROM Productos p WHERE p.descripcion = :descripcion"),
-    @NamedQuery(name = "Productos.findByCantidad", query = "SELECT p FROM Productos p WHERE p.cantidad = :cantidad"),
-    @NamedQuery(name = "Productos.findByValor", query = "SELECT p FROM Productos p WHERE p.valor = :valor"),
-    @NamedQuery(name = "Productos.findByNombre", query = "SELECT p FROM Productos p WHERE p.nombre = :nombre"),
-    @NamedQuery(name = "Productos.findByEstado", query = "SELECT p FROM Productos p WHERE p.estado = :estado"),
-    @NamedQuery(name = "Productos.findByStockAdmin", query = "SELECT p FROM Productos p WHERE p.stockAdmin = :stockAdmin")})
-public class Productos implements Serializable {
+    @NamedQuery(name = "Producto.findAll", query = "SELECT p FROM Producto p"),
+    @NamedQuery(name = "Producto.findByCodigo", query = "SELECT p FROM Producto p WHERE p.codigo = :codigo"),
+    @NamedQuery(name = "Producto.findByAnio", query = "SELECT p FROM Producto p WHERE p.anio = :anio"),
+    @NamedQuery(name = "Producto.findByMarca", query = "SELECT p FROM Producto p WHERE p.marca = :marca"),
+    @NamedQuery(name = "Producto.findByModelo", query = "SELECT p FROM Producto p WHERE p.modelo = :modelo"),
+    @NamedQuery(name = "Producto.findByTipo", query = "SELECT p FROM Producto p WHERE p.tipo = :tipo"),
+    @NamedQuery(name = "Producto.findByMedida", query = "SELECT p FROM Producto p WHERE p.medida = :medida"),
+    @NamedQuery(name = "Producto.findByDescripcion", query = "SELECT p FROM Producto p WHERE p.descripcion = :descripcion"),
+    @NamedQuery(name = "Producto.findByCantidad", query = "SELECT p FROM Producto p WHERE p.cantidad = :cantidad"),
+    @NamedQuery(name = "Producto.findByValor", query = "SELECT p FROM Producto p WHERE p.valor = :valor"),
+    @NamedQuery(name = "Producto.findByNombre", query = "SELECT p FROM Producto p WHERE p.nombre = :nombre"),
+    @NamedQuery(name = "Producto.findByEstado", query = "SELECT p FROM Producto p WHERE p.estado = :estado"),
+    @NamedQuery(name = "Producto.findByStockAdmin", query = "SELECT p FROM Producto p WHERE p.stockAdmin = :stockAdmin")})
+public class Producto implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -85,10 +85,10 @@ public class Productos implements Serializable {
     @Basic(optional = false)
     @Column(name = "StockAdmin")
     private int stockAdmin;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "productos")
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "producto")
     private Subcategoria subcategoria;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "codigoProducto")
-    private Collection<Detalleventa> detalleventaCollection;
+    private Collection<DetalleVenta> detalleVentaCollection;
     @JoinColumn(name = "SubCategoria", referencedColumnName = "IdSubCategoria")
     @ManyToOne(optional = false)
     private Subcategoria subCategoria;
@@ -96,14 +96,14 @@ public class Productos implements Serializable {
     @ManyToOne(optional = false)
     private Proveedor proveedor;
 
-    public Productos() {
+    public Producto() {
     }
 
-    public Productos(Integer codigo) {
+    public Producto(Integer codigo) {
         this.codigo = codigo;
     }
 
-    public Productos(Integer codigo, int anio, String marca, String modelo, String tipo, String medida, String descripcion, int cantidad, int valor, String nombre, String estado, int stockAdmin) {
+    public Producto(Integer codigo, int anio, String marca, String modelo, String tipo, String medida, String descripcion, int cantidad, int valor, String nombre, String estado, int stockAdmin) {
         this.codigo = codigo;
         this.anio = anio;
         this.marca = marca;
@@ -223,12 +223,12 @@ public class Productos implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Detalleventa> getDetalleventaCollection() {
-        return detalleventaCollection;
+    public Collection<DetalleVenta> getDetalleventaCollection() {
+        return detalleVentaCollection;
     }
 
-    public void setDetalleventaCollection(Collection<Detalleventa> detalleventaCollection) {
-        this.detalleventaCollection = detalleventaCollection;
+    public void setDetalleVentaCollection(Collection<DetalleVenta> detalleVentaCollection) {
+        this.detalleVentaCollection = detalleVentaCollection;
     }
 
     public Subcategoria getSubCategoria() {
@@ -257,10 +257,10 @@ public class Productos implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Productos)) {
+        if (!(object instanceof Producto)) {
             return false;
         }
-        Productos other = (Productos) object;
+        Producto other = (Producto) object;
         if ((this.codigo == null && other.codigo != null) || (this.codigo != null && !this.codigo.equals(other.codigo))) {
             return false;
         }
@@ -269,7 +269,7 @@ public class Productos implements Serializable {
 
     @Override
     public String toString() {
-        return "cl.duoc.inventario.entity.Productos[ codigo=" + codigo + " ]";
+        return "cl.duoc.inventario.entity.Producto[ codigo=" + codigo + " ]";
     }
     
 }

@@ -33,7 +33,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Detalleventa.findByIdDetVenta", query = "SELECT d FROM Detalleventa d WHERE d.idDetVenta = :idDetVenta"),
     @NamedQuery(name = "Detalleventa.findByCantidad", query = "SELECT d FROM Detalleventa d WHERE d.cantidad = :cantidad"),
     @NamedQuery(name = "Detalleventa.findByTotal", query = "SELECT d FROM Detalleventa d WHERE d.total = :total")})
-public class Detalleventa implements Serializable {
+public class DetalleVenta implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,16 +50,16 @@ public class Detalleventa implements Serializable {
     private Venta venta;
     @JoinColumn(name = "CodigoProducto", referencedColumnName = "Codigo")
     @ManyToOne(optional = false)
-    private Productos codigoProducto;
+    private Producto codigoProducto;
 
-    public Detalleventa() {
+    public DetalleVenta() {
     }
 
-    public Detalleventa(Integer idDetVenta) {
+    public DetalleVenta(Integer idDetVenta) {
         this.idDetVenta = idDetVenta;
     }
 
-    public Detalleventa(Integer idDetVenta, int cantidad, int total) {
+    public DetalleVenta(Integer idDetVenta, int cantidad, int total) {
         this.idDetVenta = idDetVenta;
         this.cantidad = cantidad;
         this.total = total;
@@ -97,11 +97,11 @@ public class Detalleventa implements Serializable {
         this.venta = venta;
     }
 
-    public Productos getCodigoProducto() {
+    public Producto getCodigoProducto() {
         return codigoProducto;
     }
 
-    public void setCodigoProducto(Productos codigoProducto) {
+    public void setCodigoProducto(Producto codigoProducto) {
         this.codigoProducto = codigoProducto;
     }
 
@@ -115,10 +115,10 @@ public class Detalleventa implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Detalleventa)) {
+        if (!(object instanceof DetalleVenta)) {
             return false;
         }
-        Detalleventa other = (Detalleventa) object;
+        DetalleVenta other = (DetalleVenta) object;
         if ((this.idDetVenta == null && other.idDetVenta != null) || (this.idDetVenta != null && !this.idDetVenta.equals(other.idDetVenta))) {
             return false;
         }

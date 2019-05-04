@@ -55,12 +55,12 @@ public class Subcategoria implements Serializable {
     private String eliminado;
     @JoinColumn(name = "IdSubCategoria", referencedColumnName = "SubCategoria", insertable = false, updatable = false)
     @OneToOne(optional = false)
-    private Productos productos;
+    private Producto productos;
     @JoinColumn(name = "Categoria", referencedColumnName = "IdCategoria")
     @ManyToOne(optional = false)
     private Categoria categoria;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "subCategoria")
-    private Collection<Productos> productosCollection;
+    private Collection<Producto> productosCollection;
 
     public Subcategoria() {
     }
@@ -108,11 +108,11 @@ public class Subcategoria implements Serializable {
         this.eliminado = eliminado;
     }
 
-    public Productos getProductos() {
+    public Producto getProductos() {
         return productos;
     }
 
-    public void setProductos(Productos productos) {
+    public void setProductos(Producto productos) {
         this.productos = productos;
     }
 
@@ -125,11 +125,11 @@ public class Subcategoria implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Productos> getProductosCollection() {
+    public Collection<Producto> getProductosCollection() {
         return productosCollection;
     }
 
-    public void setProductosCollection(Collection<Productos> productosCollection) {
+    public void setProductosCollection(Collection<Producto> productosCollection) {
         this.productosCollection = productosCollection;
     }
 

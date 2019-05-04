@@ -63,7 +63,7 @@ public class Proveedor implements Serializable {
     @Column(name = "Eliminado")
     private String eliminado;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "proveedor")
-    private Collection<Productos> productosCollection;
+    private Collection<Producto> productosCollection;
 
     public Proveedor() {
     }
@@ -139,11 +139,11 @@ public class Proveedor implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Productos> getProductosCollection() {
+    public Collection<Producto> getProductosCollection() {
         return productosCollection;
     }
 
-    public void setProductosCollection(Collection<Productos> productosCollection) {
+    public void setProductosCollection(Collection<Producto> productosCollection) {
         this.productosCollection = productosCollection;
     }
 
