@@ -1,155 +1,111 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package cl.duoc.inventario.model;
 
 import java.io.Serializable;
+import java.util.List;
+import javax.xml.bind.annotation.XmlTransient;
+
 /**
  *
- * @author Alvaro San Martín
+ * @author Alvaro
  */
-public class Contacto implements Serializable, Comparable<Contacto> {
+public class Contacto implements Serializable {
 
-    private Integer idContacto;
-    private String nombre;
-    private String apellido;
+    private static final long serialVersionUID = 1L;
+    
     private String email;
-    private String mensaje;
-    private String asunto;
-
-    /**
-     * @return the idContacto
-     */
-    public Integer getIdContacto() {
-        return idContacto;
-    }
-
-    /**
-     * @param idContacto the idContacto to set
-     */
-    public void setIdContacto(Integer idContacto) {
-        this.idContacto = idContacto;
-    }
-
-    /**
-     * @return the nombre
-     */
-    public String getNombre() {
-        return nombre;
-    }
-
-    /**
-     * @param nombre the nombre to set
-     */
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    /**
-     * @return the apellido
-     */
-    public String getApellido() {
-        return apellido;
-    }
-
-    /**
-     * @param apellido the apellido to set
-     */
-    public void setApellido(String apellido) {
-        this.apellido = apellido;
-    }
-
-    /**
-     * @return the email
-     */
-    public String getEmail() {
-        return email;
-    }
-
-    /**
-     * @param email the email to set
-     */
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    /**
-     * @return the mensaje
-     */
-    public String getMensaje() {
-        return mensaje;
-    }
-
-    /**
-     * @param mensaje the mensaje to set
-     */
-    public void setMensaje(String mensaje) {
-        this.mensaje = mensaje;
-    }
-
-    /**
-     * @return the asunto
-     */
-    public String getAsunto() {
-        return asunto;
-    }
-
-    /**
-     * @param asunto the asunto to set
-     */
-    public void setAsunto(String asunto) {
-        this.asunto = asunto;
-    }
-
-    public Contacto(Integer idContacto, String nombre, String apellido, String email, String mensaje, String asunto) {
-        this.idContacto = idContacto;
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.email = email;
-        this.mensaje = mensaje;
-        this.asunto = asunto;
-    }
+    private String nombre;
+    private String telefono;
+    private String motivo;
+    private String requerimiento;
+    private List<Usuario> usuarioList;
 
     public Contacto() {
     }
 
-    @Override
-    public String toString() {
-        return "Contacto{" + "idContacto=" + idContacto + ", nombre=" + nombre + ", apellido=" + apellido + ", email=" + email + ", mensaje=" + mensaje + ", asunto=" + asunto + '}';
-    }
-
-    @Override
-    public int compareTo(Contacto o) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    
-    public boolean hasNombre() {
-        return nombre != null && !"".equals(nombre.trim());
-    }
-    
-    public Contacto asunto(String asunto) {
-        this.asunto = asunto;
-        return this;
-    }
-    
-    public Contacto mensaje(String mensaje) {
-        this.mensaje = mensaje;
-        return this;
-    }
-    public Contacto email(String email) {
+    public Contacto(String email) {
         this.email = email;
-        return this;
-    }
-    public Contacto apellido(String apellido) {
-        this.apellido = apellido;
-        return this;
-    }
-     public Contacto nombre(String nombre) {
-        this.nombre = nombre;
-        return this;
     }
 
-    public Contacto(Integer idContacto) {
-        this.idContacto = idContacto;
+    public Contacto(String email, String nombre, String telefono, String motivo, String requerimiento) {
+        this.email = email;
+        this.nombre = nombre;
+        this.telefono = telefono;
+        this.motivo = motivo;
+        this.requerimiento = requerimiento;
     }
-     
-     
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
+    public String getMotivo() {
+        return motivo;
+    }
+
+    public void setMotivo(String motivo) {
+        this.motivo = motivo;
+    }
+
+    public String getRequerimiento() {
+        return requerimiento;
+    }
+
+    public void setRequerimiento(String requerimiento) {
+        this.requerimiento = requerimiento;
+    }
+
+    @XmlTransient
+    public List<Usuario> getUsuarioList() {
+        return usuarioList;
+    }
+
+    public void setUsuarioList(List<Usuario> usuarioList) {
+        this.usuarioList = usuarioList;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (email != null ? email.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof Contacto)) {
+            return false;
+        }
+        Contacto other = (Contacto) object;
+        if ((this.email == null && other.email != null) || (this.email != null && !this.email.equals(other.email))) {
+            return false;
+        }
+        return true;
+    }
+    
 }
