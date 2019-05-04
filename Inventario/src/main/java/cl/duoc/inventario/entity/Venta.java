@@ -51,7 +51,7 @@ public class Venta implements Serializable {
     private String eliminado;
     @JoinColumn(name = "IdVenta", referencedColumnName = "IdDetVenta", insertable = false, updatable = false)
     @OneToOne(optional = false)
-    private Detalleventa detalleventa;
+    private DetalleVenta detalleVenta;
     @JoinColumn(name = "RutCliente", referencedColumnName = "Rut")
     @ManyToOne(optional = false)
     private Usuario rutCliente;
@@ -93,12 +93,12 @@ public class Venta implements Serializable {
         this.eliminado = eliminado;
     }
 
-    public Detalleventa getDetalleventa() {
-        return detalleventa;
+    public DetalleVenta getDetalleVenta() {
+        return detalleVenta;
     }
 
-    public void setDetalleventa(Detalleventa detalleventa) {
-        this.detalleventa = detalleventa;
+    public void setDetalleVenta(DetalleVenta detalleVenta) {
+        this.detalleVenta = detalleVenta;
     }
 
     public Usuario getRutCliente() {
