@@ -22,11 +22,15 @@ SET time_zone = "+00:00";
 -- Base de datos: `inventario`
 --
 
+DROP SCHEMA IF EXISTS inventario;
+CREATE SCHEMA inventario;
+
 -- --------------------------------------------------------
 
 --
 -- Estructura de tabla para la tabla `categoria`
 --
+USE inventario;
 
 DROP TABLE IF EXISTS `categoria`;
 CREATE TABLE IF NOT EXISTS `categoria` (
@@ -59,8 +63,8 @@ CREATE TABLE IF NOT EXISTS `contacto` (
 -- Estructura de tabla para la tabla `detalleventa`
 --
 
-DROP TABLE IF EXISTS `detalleventa`;
-CREATE TABLE IF NOT EXISTS `detalleventa` (
+DROP TABLE IF EXISTS `detalleVenta`;
+CREATE TABLE IF NOT EXISTS `detalleVenta` (
   `IdDetVenta` int(11) NOT NULL AUTO_INCREMENT,
   `CodigoProducto` int(11) NOT NULL,
   `Cantidad` int(11) NOT NULL,
@@ -72,13 +76,13 @@ CREATE TABLE IF NOT EXISTS `detalleventa` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `productos`
+-- Estructura de tabla para la tabla `producto`
 --
 
-DROP TABLE IF EXISTS `productos`;
-CREATE TABLE IF NOT EXISTS `productos` (
+DROP TABLE IF EXISTS `producto`;
+CREATE TABLE IF NOT EXISTS `producto` (
   `Codigo` int(11) NOT NULL AUTO_INCREMENT,
-  `Anio` int(11) NOT NULL,
+  `Anho` int(11) NOT NULL,
   `Marca` varchar(45) NOT NULL,
   `Modelo` varchar(20) NOT NULL,
   `Tipo` varchar(20) NOT NULL,
@@ -175,20 +179,20 @@ CREATE TABLE IF NOT EXISTS `venta` (
 -- Filtros para la tabla `detalleventa`
 --
 ALTER TABLE `detalleventa`
-  ADD CONSTRAINT `detalleventa_ibfk_1` FOREIGN KEY (`CodigoProducto`) REFERENCES `productos` (`Codigo`);
+  ADD CONSTRAINT `detalleventa_ibfk_1` FOREIGN KEY (`CodigoProducto`) REFERENCES `producto` (`Codigo`);
 
 --
--- Filtros para la tabla `productos`
+-- Filtros para la tabla `producto`
 --
-ALTER TABLE `productos`
-  ADD CONSTRAINT `productos_ibfk_1` FOREIGN KEY (`SubCategoria`) REFERENCES `subcategoria` (`IdSubCategoria`),
-  ADD CONSTRAINT `productos_ibfk_2` FOREIGN KEY (`Proveedor`) REFERENCES `proveedor` (`IdProveedor`);
+ALTER TABLE `producto`
+  ADD CONSTRAINT `producto_ibfk_1` FOREIGN KEY (`SubCategoria`) REFERENCES `subcategoria` (`IdSubCategoria`),
+  ADD CONSTRAINT `producto_ibfk_2` FOREIGN KEY (`Proveedor`) REFERENCES `proveedor` (`IdProveedor`);
 
 --
 -- Filtros para la tabla `subcategoria`
 --
 ALTER TABLE `subcategoria`
-  ADD CONSTRAINT `subcategoria_ibfk_1` FOREIGN KEY (`IdSubCategoria`) REFERENCES `productos` (`SubCategoria`),
+  ADD CONSTRAINT `subcategoria_ibfk_1` FOREIGN KEY (`IdSubCategoria`) REFERENCES `producto` (`SubCategoria`),
   ADD CONSTRAINT `subcategoria_ibfk_2` FOREIGN KEY (`Categoria`) REFERENCES `categoria` (`IdCategoria`);
 
 --
