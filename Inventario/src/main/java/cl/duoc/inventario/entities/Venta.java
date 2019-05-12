@@ -6,11 +6,11 @@
 package cl.duoc.inventario.entities;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -18,22 +18,23 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Alvaro
+ * @author Ghost_home
  */
 @Entity
 @Table(name = "venta", catalog = "inventario", schema = "")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Venta.findAll", query = "SELECT v FROM Venta v")
-    , @NamedQuery(name = "Venta.findByIdVenta", query = "SELECT v FROM Venta v WHERE v.idVenta = :idVenta")
+    , @NamedQuery(name = "Venta.findById", query = "SELECT v FROM Venta v WHERE v.id = :id")
     , @NamedQuery(name = "Venta.findByFecha", query = "SELECT v FROM Venta v WHERE v.fecha = :fecha")
     , @NamedQuery(name = "Venta.findByEliminado", query = "SELECT v FROM Venta v WHERE v.eliminado = :eliminado")})
 public class Venta implements Serializable {
@@ -42,41 +43,40 @@ public class Venta implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "IdVenta")
-    private Integer idVenta;
+    @Column(name = "id", nullable = false)
+    private Integer id;
     @Basic(optional = false)
-    @Column(name = "fecha")
+    @Column(name = "fecha", nullable = false)
     @Temporal(TemporalType.DATE)
     private Date fecha;
     @Basic(optional = false)
-    @Column(name = "eliminado")
+    @Column(name = "eliminado", nullable = false, length = 45)
     private String eliminado;
-    @JoinColumn(name = "IdVenta", referencedColumnName = "IdDetVenta", insertable = false, updatable = false)
-    @OneToOne(optional = false, fetch = FetchType.LAZY)
-    private Detalleventa detalleventa;
-    @JoinColumn(name = "IdUsuario", referencedColumnName = "Id")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private Usuario idUsuario;
+    @JoinColumn(name = "rutCliente", referencedColumnName = "id", nullable = false)
+    @ManyToOne(optional = false)
+    private Usuario rutCliente;
+    @OneToMany(mappedBy = "venta")
+    private Collection<Detalleventa> detalleventaCollection;
 
     public Venta() {
     }
 
-    public Venta(Integer idVenta) {
-        this.idVenta = idVenta;
+    public Venta(Integer id) {
+        this.id = id;
     }
 
-    public Venta(Integer idVenta, Date fecha, String eliminado) {
-        this.idVenta = idVenta;
+    public Venta(Integer id, Date fecha, String eliminado) {
+        this.id = id;
         this.fecha = fecha;
         this.eliminado = eliminado;
     }
 
-    public Integer getIdVenta() {
-        return idVenta;
+    public Integer getId() {
+        return id;
     }
 
-    public void setIdVenta(Integer idVenta) {
-        this.idVenta = idVenta;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public Date getFecha() {
@@ -95,26 +95,27 @@ public class Venta implements Serializable {
         this.eliminado = eliminado;
     }
 
-    public Detalleventa getDetalleventa() {
-        return detalleventa;
+    public Usuario getRutCliente() {
+        return rutCliente;
     }
 
-    public void setDetalleventa(Detalleventa detalleventa) {
-        this.detalleventa = detalleventa;
+    public void setRutCliente(Usuario rutCliente) {
+        this.rutCliente = rutCliente;
     }
 
-    public Usuario getIdUsuario() {
-        return idUsuario;
+    @XmlTransient
+    public Collection<Detalleventa> getDetalleventaCollection() {
+        return detalleventaCollection;
     }
 
-    public void setIdUsuario(Usuario idUsuario) {
-        this.idUsuario = idUsuario;
+    public void setDetalleventaCollection(Collection<Detalleventa> detalleventaCollection) {
+        this.detalleventaCollection = detalleventaCollection;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (idVenta != null ? idVenta.hashCode() : 0);
+        hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
@@ -125,7 +126,7 @@ public class Venta implements Serializable {
             return false;
         }
         Venta other = (Venta) object;
-        if ((this.idVenta == null && other.idVenta != null) || (this.idVenta != null && !this.idVenta.equals(other.idVenta))) {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;
@@ -133,7 +134,7 @@ public class Venta implements Serializable {
 
     @Override
     public String toString() {
-        return "cl.duoc.inventario.entities.Venta[ idVenta=" + idVenta + " ]";
+        return "cl.duoc.inventario.entities.Venta[ id=" + id + " ]";
     }
     
 }
