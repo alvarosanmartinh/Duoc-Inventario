@@ -6,12 +6,11 @@
 package cl.duoc.inventario.entities;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -24,7 +23,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Alvaro
+ * @author Ghost_home
  */
 @Entity
 @Table(name = "usuario", catalog = "inventario", schema = "")
@@ -35,6 +34,7 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Usuario.findByRut", query = "SELECT u FROM Usuario u WHERE u.rut = :rut")
     , @NamedQuery(name = "Usuario.findByClave", query = "SELECT u FROM Usuario u WHERE u.clave = :clave")
     , @NamedQuery(name = "Usuario.findByNombre", query = "SELECT u FROM Usuario u WHERE u.nombre = :nombre")
+    , @NamedQuery(name = "Usuario.findByEmail", query = "SELECT u FROM Usuario u WHERE u.email = :email")
     , @NamedQuery(name = "Usuario.findByDireccion", query = "SELECT u FROM Usuario u WHERE u.direccion = :direccion")
     , @NamedQuery(name = "Usuario.findByTelefono", query = "SELECT u FROM Usuario u WHERE u.telefono = :telefono")
     , @NamedQuery(name = "Usuario.findByTipo", query = "SELECT u FROM Usuario u WHERE u.tipo = :tipo")
@@ -45,37 +45,40 @@ public class Usuario implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "Id")
+    @Column(name = "id", nullable = false, length = 12)
     private String id;
     @Basic(optional = false)
-    @Column(name = "Rut")
+    @Column(name = "rut", nullable = false, length = 12)
     private String rut;
     @Basic(optional = false)
-    @Column(name = "Clave")
+    @Column(name = "clave", nullable = false, length = 20)
     private String clave;
     @Basic(optional = false)
-    @Column(name = "Nombre")
+    @Column(name = "nombre", nullable = false, length = 100)
     private String nombre;
     @Basic(optional = false)
-    @Column(name = "Direccion")
+    @Column(name = "email", nullable = false, length = 100)
+    private String email;
+    @Basic(optional = false)
+    @Column(name = "direccion", nullable = false, length = 100)
     private String direccion;
     @Basic(optional = false)
-    @Column(name = "Telefono")
+    @Column(name = "telefono", nullable = false, length = 15)
     private String telefono;
     @Basic(optional = false)
-    @Column(name = "Tipo")
+    @Column(name = "tipo", nullable = false, length = 20)
     private String tipo;
     @Basic(optional = false)
-    @Column(name = "Eliminado")
+    @Column(name = "eliminado", nullable = false, length = 45)
     private String eliminado;
     @Basic(optional = false)
-    @Column(name = "Username")
+    @Column(name = "username", nullable = false, length = 45)
     private String username;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario", fetch = FetchType.LAZY)
-    private List<Venta> ventaList;
-    @JoinColumn(name = "Email", referencedColumnName = "email")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private Contacto email;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "rutCliente")
+    private Collection<Venta> ventaCollection;
+    @JoinColumn(name = "id_contacto", referencedColumnName = "id", nullable = false)
+    @ManyToOne(optional = false)
+    private Contacto idContacto;
 
     public Usuario() {
     }
@@ -84,11 +87,12 @@ public class Usuario implements Serializable {
         this.id = id;
     }
 
-    public Usuario(String id, String rut, String clave, String nombre, String direccion, String telefono, String tipo, String eliminado, String username) {
+    public Usuario(String id, String rut, String clave, String nombre, String email, String direccion, String telefono, String tipo, String eliminado, String username) {
         this.id = id;
         this.rut = rut;
         this.clave = clave;
         this.nombre = nombre;
+        this.email = email;
         this.direccion = direccion;
         this.telefono = telefono;
         this.tipo = tipo;
@@ -126,6 +130,14 @@ public class Usuario implements Serializable {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getDireccion() {
@@ -169,20 +181,20 @@ public class Usuario implements Serializable {
     }
 
     @XmlTransient
-    public List<Venta> getVentaList() {
-        return ventaList;
+    public Collection<Venta> getVentaCollection() {
+        return ventaCollection;
     }
 
-    public void setVentaList(List<Venta> ventaList) {
-        this.ventaList = ventaList;
+    public void setVentaCollection(Collection<Venta> ventaCollection) {
+        this.ventaCollection = ventaCollection;
     }
 
-    public Contacto getEmail() {
-        return email;
+    public Contacto getIdContacto() {
+        return idContacto;
     }
 
-    public void setEmail(Contacto email) {
-        this.email = email;
+    public void setIdContacto(Contacto idContacto) {
+        this.idContacto = idContacto;
     }
 
     @Override
