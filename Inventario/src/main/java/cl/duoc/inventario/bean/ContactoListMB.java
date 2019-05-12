@@ -1,8 +1,9 @@
 package cl.duoc.inventario.bean;
 
 import cl.duoc.inventario.infra.model.Filter;
-import cl.duoc.inventario.model.Contacto;
-import cl.duoc.inventario.model.Contacto;
+import cl.duoc.inventario.entities.Contacto;
+//import cl.duoc.inventario.model.Contacto;
+
 import cl.duoc.inventario.service.ContactoService;
 import cl.duoc.inventario.service.ContactoService;
 import com.github.adminfaces.template.exception.BusinessException;
