@@ -159,5 +159,9 @@ public class Contacto implements Serializable {
     public String toString() {
         return "cl.duoc.inventario.entities.Contacto[ id=" + id + " ]";
     }
+
+    public Object getIdContacto() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }
