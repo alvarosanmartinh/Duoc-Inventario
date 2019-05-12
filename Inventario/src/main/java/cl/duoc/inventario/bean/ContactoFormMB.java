@@ -1,6 +1,8 @@
 package cl.duoc.inventario.bean;
 
-import cl.duoc.inventario.model.Contacto;
+//import cl.duoc.inventario.model.Contacto;
+import cl.duoc.inventario.entities.Contacto;
+import cl.duoc.inventario.model.ContactoFacadeLocal;
 import cl.duoc.inventario.service.ContactoService;
 import org.omnifaces.cdi.ViewScoped;
 import org.omnifaces.util.Faces;
