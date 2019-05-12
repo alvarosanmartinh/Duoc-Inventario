@@ -2,7 +2,7 @@ package cl.duoc.inventario.service;
 
 import cl.duoc.inventario.infra.model.Filter;
 import cl.duoc.inventario.infra.model.SortOrder;
-import cl.duoc.inventario.model.Producto;
+import cl.duoc.inventario.entities.Producto;
 import com.github.adminfaces.template.exception.BusinessException;
 
 import javax.ejb.Stateless;
