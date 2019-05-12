@@ -1,6 +1,6 @@
 package cl.duoc.inventario.bean;
 
-import cl.duoc.inventario.model.Producto;
+import cl.duoc.inventario.entities.Producto;
 import cl.duoc.inventario.service.ProductoService;
 import org.omnifaces.cdi.ViewScoped;
 import org.omnifaces.util.Faces;
