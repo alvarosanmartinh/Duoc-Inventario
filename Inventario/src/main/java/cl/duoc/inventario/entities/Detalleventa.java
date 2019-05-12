@@ -7,10 +7,8 @@ package cl.duoc.inventario.entities;
 
 import java.io.Serializable;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -18,20 +16,19 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Alvaro
+ * @author Ghost_home
  */
 @Entity
 @Table(name = "detalleventa", catalog = "inventario", schema = "")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Detalleventa.findAll", query = "SELECT d FROM Detalleventa d")
-    , @NamedQuery(name = "Detalleventa.findByIdDetVenta", query = "SELECT d FROM Detalleventa d WHERE d.idDetVenta = :idDetVenta")
+    , @NamedQuery(name = "Detalleventa.findById", query = "SELECT d FROM Detalleventa d WHERE d.id = :id")
     , @NamedQuery(name = "Detalleventa.findByCantidad", query = "SELECT d FROM Detalleventa d WHERE d.cantidad = :cantidad")
     , @NamedQuery(name = "Detalleventa.findByTotal", query = "SELECT d FROM Detalleventa d WHERE d.total = :total")})
 public class Detalleventa implements Serializable {
@@ -40,39 +37,40 @@ public class Detalleventa implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "IdDetVenta")
-    private Integer idDetVenta;
+    @Column(name = "id", nullable = false)
+    private Integer id;
     @Basic(optional = false)
-    @Column(name = "Cantidad")
+    @Column(name = "cantidad", nullable = false)
     private int cantidad;
     @Basic(optional = false)
-    @Column(name = "Total")
+    @Column(name = "total", nullable = false)
     private int total;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "detalleventa", fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_producto", referencedColumnName = "id", nullable = false)
+    @ManyToOne(optional = false)
+    private Producto idProducto;
+    @JoinColumn(name = "venta", referencedColumnName = "id")
+    @ManyToOne
     private Venta venta;
-    @JoinColumn(name = "CodigoProducto", referencedColumnName = "Codigo")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private Producto codigoProducto;
 
     public Detalleventa() {
     }
 
-    public Detalleventa(Integer idDetVenta) {
-        this.idDetVenta = idDetVenta;
+    public Detalleventa(Integer id) {
+        this.id = id;
     }
 
-    public Detalleventa(Integer idDetVenta, int cantidad, int total) {
-        this.idDetVenta = idDetVenta;
+    public Detalleventa(Integer id, int cantidad, int total) {
+        this.id = id;
         this.cantidad = cantidad;
         this.total = total;
     }
 
-    public Integer getIdDetVenta() {
-        return idDetVenta;
+    public Integer getId() {
+        return id;
     }
 
-    public void setIdDetVenta(Integer idDetVenta) {
-        this.idDetVenta = idDetVenta;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public int getCantidad() {
@@ -91,6 +89,14 @@ public class Detalleventa implements Serializable {
         this.total = total;
     }
 
+    public Producto getIdProducto() {
+        return idProducto;
+    }
+
+    public void setIdProducto(Producto idProducto) {
+        this.idProducto = idProducto;
+    }
+
     public Venta getVenta() {
         return venta;
     }
@@ -99,18 +105,10 @@ public class Detalleventa implements Serializable {
         this.venta = venta;
     }
 
-    public Producto getCodigoProducto() {
-        return codigoProducto;
-    }
-
-    public void setCodigoProducto(Producto codigoProducto) {
-        this.codigoProducto = codigoProducto;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (idDetVenta != null ? idDetVenta.hashCode() : 0);
+        hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
@@ -121,7 +119,7 @@ public class Detalleventa implements Serializable {
             return false;
         }
         Detalleventa other = (Detalleventa) object;
-        if ((this.idDetVenta == null && other.idDetVenta != null) || (this.idDetVenta != null && !this.idDetVenta.equals(other.idDetVenta))) {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;
@@ -129,7 +127,7 @@ public class Detalleventa implements Serializable {
 
     @Override
     public String toString() {
-        return "cl.duoc.inventario.entities.Detalleventa[ idDetVenta=" + idDetVenta + " ]";
+        return "cl.duoc.inventario.entities.Detalleventa[ id=" + id + " ]";
     }
     
 }
