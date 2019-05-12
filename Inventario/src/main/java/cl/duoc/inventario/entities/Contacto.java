@@ -6,12 +6,13 @@
 package cl.duoc.inventario.entities;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -22,13 +23,14 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Alvaro
+ * @author Ghost_home
  */
 @Entity
 @Table(name = "contacto", catalog = "inventario", schema = "")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Contacto.findAll", query = "SELECT c FROM Contacto c")
+    , @NamedQuery(name = "Contacto.findById", query = "SELECT c FROM Contacto c WHERE c.id = :id")
     , @NamedQuery(name = "Contacto.findByEmail", query = "SELECT c FROM Contacto c WHERE c.email = :email")
     , @NamedQuery(name = "Contacto.findByNombre", query = "SELECT c FROM Contacto c WHERE c.nombre = :nombre")
     , @NamedQuery(name = "Contacto.findByTelefono", query = "SELECT c FROM Contacto c WHERE c.telefono = :telefono")
@@ -38,37 +40,50 @@ public class Contacto implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "email")
+    @Column(name = "id", nullable = false)
+    private Integer id;
+    @Basic(optional = false)
+    @Column(name = "email", nullable = false, length = 100)
     private String email;
     @Basic(optional = false)
-    @Column(name = "nombre")
+    @Column(name = "nombre", nullable = false, length = 100)
     private String nombre;
     @Basic(optional = false)
-    @Column(name = "telefono")
+    @Column(name = "telefono", nullable = false, length = 12)
     private String telefono;
     @Basic(optional = false)
-    @Column(name = "Motivo")
+    @Column(name = "motivo", nullable = false, length = 20)
     private String motivo;
     @Basic(optional = false)
-    @Column(name = "requerimiento")
+    @Column(name = "requerimiento", nullable = false, length = 150)
     private String requerimiento;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "email", fetch = FetchType.LAZY)
-    private List<Usuario> usuarioList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idContacto")
+    private Collection<Usuario> usuarioCollection;
 
     public Contacto() {
     }
 
-    public Contacto(String email) {
-        this.email = email;
+    public Contacto(Integer id) {
+        this.id = id;
     }
 
-    public Contacto(String email, String nombre, String telefono, String motivo, String requerimiento) {
+    public Contacto(Integer id, String email, String nombre, String telefono, String motivo, String requerimiento) {
+        this.id = id;
         this.email = email;
         this.nombre = nombre;
         this.telefono = telefono;
         this.motivo = motivo;
         this.requerimiento = requerimiento;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getEmail() {
@@ -112,18 +127,18 @@ public class Contacto implements Serializable {
     }
 
     @XmlTransient
-    public List<Usuario> getUsuarioList() {
-        return usuarioList;
+    public Collection<Usuario> getUsuarioCollection() {
+        return usuarioCollection;
     }
 
-    public void setUsuarioList(List<Usuario> usuarioList) {
-        this.usuarioList = usuarioList;
+    public void setUsuarioCollection(Collection<Usuario> usuarioCollection) {
+        this.usuarioCollection = usuarioCollection;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (email != null ? email.hashCode() : 0);
+        hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
@@ -134,7 +149,7 @@ public class Contacto implements Serializable {
             return false;
         }
         Contacto other = (Contacto) object;
-        if ((this.email == null && other.email != null) || (this.email != null && !this.email.equals(other.email))) {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;
@@ -142,7 +157,7 @@ public class Contacto implements Serializable {
 
     @Override
     public String toString() {
-        return "cl.duoc.inventario.entities.Contacto[ email=" + email + " ]";
+        return "cl.duoc.inventario.entities.Contacto[ id=" + id + " ]";
     }
     
 }
