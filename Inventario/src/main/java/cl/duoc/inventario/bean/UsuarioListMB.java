@@ -1,7 +1,7 @@
 package cl.duoc.inventario.bean;
 
 import cl.duoc.inventario.infra.model.Filter;
-import cl.duoc.inventario.model.Usuario;
+import cl.duoc.inventario.entities.Usuario;
 import cl.duoc.inventario.service.UsuarioService;
 import com.github.adminfaces.template.exception.BusinessException;
 import org.omnifaces.cdi.ViewScoped;
