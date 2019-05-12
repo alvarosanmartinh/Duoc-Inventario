@@ -3,6 +3,7 @@ package cl.duoc.inventario.service;
 import cl.duoc.inventario.infra.model.Filter;
 import cl.duoc.inventario.infra.model.SortOrder;
 import cl.duoc.inventario.model.Contacto;
+
 import com.github.adminfaces.template.exception.BusinessException;
 
 import javax.ejb.Stateless;
