@@ -1,6 +1,6 @@
 package cl.duoc.inventario.bean;
 
-import cl.duoc.inventario.model.Usuario;
+import cl.duoc.inventario.entities.Usuario;
 import cl.duoc.inventario.service.UsuarioService;
 import org.omnifaces.cdi.ViewScoped;
 import org.omnifaces.util.Faces;
