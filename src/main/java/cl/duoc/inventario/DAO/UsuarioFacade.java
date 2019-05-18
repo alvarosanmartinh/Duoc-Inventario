@@ -17,11 +17,12 @@ import javax.persistence.PersistenceContext;
 @Stateless
 public class UsuarioFacade extends AbstractFacade<Usuario> implements UsuarioFacadeLocal {
 
-    @PersistenceContext(unitName = "cl.duoc.inventario_inventario_war_0.1-SNAPSHOTPU")
+    @PersistenceContext(unitName = "test")
     private EntityManager em;
 
     @Override
     protected EntityManager getEntityManager() {
+        System.out.println("test");
         return em;
     }
 

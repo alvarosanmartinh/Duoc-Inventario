@@ -31,7 +31,7 @@ public class UsuarioListMB implements Serializable {
 
     Integer id;
 
-    LazyDataModel<Usuario> usuarios;
+    List<Usuario> usuarios;
 
     Filter<Usuario> filter = new Filter<>(new Usuario());
 
@@ -41,35 +41,9 @@ public class UsuarioListMB implements Serializable {
 
     @PostConstruct
     public void initDataModel() {
-        usuarios = new LazyDataModel<Usuario>() {
-            @Override
-            public List<Usuario> load(int first, int pageSize,
-                                  String sortField, SortOrder sortOrder,
-                                  Map<String, Object> filters) {
-                //cl.duoc.inventario.infra.model.SortOrder order = null;
-//                if (sortOrder != null) {
-//                    order = sortOrder.equals(SortOrder.ASCENDING) ? cl.duoc.inventario.infra.model.SortOrder.ASCENDING
-//                            : sortOrder.equals(SortOrder.DESCENDING) ? cl.duoc.inventario.infra.model.SortOrder.DESCENDING
-//                            : cl.duoc.inventario.infra.model.SortOrder.UNSORTED;
-//                }
-//                filter.setFirst(first).setPageSize(pageSize)
-//                        .setSortField(sortField).setSortOrder(order)
-//                        .setParams(filters);
-                List<Usuario> list = usuarioService.findAll();
-                //setRowCount((int) usuarioService.count());
-                return list;
-            }
-
-            @Override
-            public int getRowCount() {
-                return super.getRowCount();
-            }
-
-            @Override
-            public Usuario getRowData(String key) {
-                return usuarioService.find(new Integer(key));
-            }
-        };
+        usuarios = 
+                        usuarioService
+                        .findAll();
     }
 
     public void clear() {
@@ -109,11 +83,11 @@ public class UsuarioListMB implements Serializable {
         this.selectedUsuarios = selectedUsuarios;
     }
 
-    public LazyDataModel<Usuario> getUsuarios() {
+    public List<Usuario> getUsuarios() {
         return usuarios;
     }
 
-    public void setUsuarios(LazyDataModel<Usuario> usuarios) {
+    public void setUsuarios(List<Usuario> usuarios) {
         this.usuarios = usuarios;
     }
 
