@@ -48,9 +48,9 @@ public class ContactoService implements Serializable {
             pagedContactos = allContactos.stream().
                 sorted((c1, c2) -> {
                     if (filter.getSortOrder().isAscending()) {
-                        return c1.getIdContacto().compareTo(c2.getIdContacto());
+                        return c1.getId().compareTo(c2.getId());
                     } else {
-                        return c2.getIdContacto().compareTo(c1.getIdContacto());
+                        return c2.getId().compareTo(c1.getId());
                     }
                 })
                 .collect(Collectors.toList());
@@ -77,9 +77,9 @@ public class ContactoService implements Serializable {
                     sorted((c1, c2) -> {
                         boolean asc = SortOrder.ASCENDING.equals(filter.getSortOrder());
                         if (asc) {
-                            return c1.getIdContacto().compareTo(c2.getIdContacto());
+                            return c1.getId().compareTo(c2.getId());
                         } else {
-                            return c2.getIdContacto().compareTo(c1.getIdContacto());
+                            return c2.getId().compareTo(c1.getId());
                         }
                     })
                     .collect(Collectors.toList());
@@ -108,8 +108,8 @@ public class ContactoService implements Serializable {
 
     public void insert(Contacto contacto) {
         beforeInsert(contacto);
-        contacto.setIdContacto(allContactos.stream()
-                .mapToInt(c -> c.getIdContacto())
+        contacto.setId(allContactos.stream()
+                .mapToInt(c -> c.getId())
                 .max()
                 .getAsInt()+1);
         allContactos.add(contacto);

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <ul class="sidebar-menu tree" data-widget="tree">
+        <li>
+            <p:link outcome="/index.jsf" onclick="clearBreadCrumbs()">
+                <i class="fa fa-home"></i>
+                <span>Inicio</span>
+            </p:link>
+        </li>
+        <li class="header">
+            Menu
+        </li>
+        <li>
+            <p:link outcome="/product-list.jsf">
+                <i class="fa fa-cubes"></i>
+                <span>Productos</span>
+            </p:link>
+        </li>
+        <li>
+            <p:link outcome="/usuario-list.jsf">
+                <i class="fa fa-user"></i>
+                <span>Usuarios</span>
+            </p:link>
+        </li>
+        <li>
+            <p:link outcome="/contact-list.jsf">
+                <i class="fa fa-envelope"></i>
+                <span>Contactos</span>
+            </p:link>
+        </li>
+
+    </ul>
+
+</ui:composition>

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" xmlns:adm="http://github.com/adminfaces"
+                template="#{layoutMB.template}">
+    
+    
+    <ui:define name="metadata">
+        <ui:param name="title" value="Lista de contactos"/>
+        <style type="text/css">
+            .ui-datatable .ui-datatable-header {
+                text-align: right !important;
+            }
+
+        </style>
+    </ui:define>
+    <ui:define name="head-end">
+        <ui:param name="renderBreadCrumb" value="false"/>
+    </ui:define>
+    
+    <ui:define name="description">
+        Contactos del sistema
+    </ui:define>
+
+    <ui:define name="body">
+        <h:form>
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <div id="main-buttons" class="hidden-sm hidden-xs">
+                        <p:spacer width="5"/>
+                        <p:commandButton value="Borrar seleccionados" icon="fa fa-trash" styleClass="btn-danger"
+                                         action="#{contactoListMB.delete}"
+                                         disabled="#{empty contactoListMB.selectedContactos or contactoListMB.selectedContactos.size() == 0}"
+                                         process="@this" update="@form"
+                                         >
+                            <p:confirm header="Confirmar" message="Va a eliminar el contacto" icon="ui-icon-danger"/>
+                        </p:commandButton>
+                    </div>
+
+                    <p:splitButton value="Agregar" action="contact-form?faces-redirect=true"
+                                   icon="fa fa-plus" styleClass="hidden-md hidden-lg btn-primary">
+                        <p:menuitem value="Borrar seleccionados" action="#{contactoListMB.delete}"
+                                    process="@this" update="@form"
+                                    disabled="#{empty contactoListMB.selectedContactos or contactoListMB.selectedContactos.size() == 0}"
+                                    icon="fa fa-trash">
+                            <p:confirm header="Confirmar" message="Va a eliminar el contacto" icon="ui-icon-danger"/>
+                        </p:menuitem>
+                    </p:splitButton>
+
+                    <p:separator/>
+                    <p:dataTable widgetVar="tablaContactos" var="c" value="#{contactoListMB.contactos}" rows="5"
+                                 rowKey="#{c.idContacto}" lazy="true" paginator="true"
+                                 filteredValue="#{contactoListMB.filteredValue}"
+                                 paginatorPosition="bottom" selection="#{contactoListMB.selectedContactos}"
+                                 paginatorTemplate="{CurrentPageReport}  
+                                 {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} 
+                                 {RowsPerPageDropdown}"
+                                 currentPageReportTemplate="[ {startRecord} al {endRecord} de {totalRecords} ]"
+                                 rowsPerPageTemplate="5,10,15,20,30"
+                                 >
+
+                        <p:ajax event="rowSelectCheckbox" update="@(.ui-button, .ui-confirm-dialog)"/>
+                        <p:ajax event="rowUnselectCheckbox" update="@(.ui-button, .ui-confirm-dialog)"/>
+                        <p:ajax event="rowSelect" update="@(.ui-button, .ui-confirm-dialog)"/>
+                        <p:ajax event="rowUnselect" update="@(.ui-button, .ui-confirm-dialog)"/>
+
+                        <p:column selectionMode="multiple" width="5%" styleClass="align-center"/>
+
+                        <p:column headerText="Nombre">
+                            <p:link value="#{c.nombre}" outcome="contact-form.xhtml" >
+                                <f:param name="idContacto" value="#{c.idContacto}"/>
+                            </p:link>
+                        </p:column>
+                        <p:column headerText="Apellido" >
+                            #{c.apellido}
+                        </p:column>
+                        
+                        <p:column headerText="Asunto" >
+                            #{c.asunto}
+                        </p:column>
+                        
+                        <p:column headerText="Email" >
+                            #{c.email}
+                        </p:column>
+                    </p:dataTable>
+                </div>
+            </div>
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" styleClass="box-danger box-solid">
+                <p:commandButton value="Si" type="button" styleClass="btn-material btn-primary ui-confirmdialog-yes"
+                                 icon="fa fa-check"/>
+                <p:commandButton value="No" type="button" styleClass="btn-material btn-danger ui-confirmdialog-no"
+                                 icon="fa fa-close"/>
+            </p:confirmDialog>
+        </h:form>
+
+
+
+        <p:dialog header="Contactos seleccionados" widgetVar="selectedContactos" height="250"
+                  width="400" responsive="true" styleClass="box-success">
+            <p:dataList id="selectedContactosList" value="#{contactoListMB.selectedContactos}" var="contacto"
+                        type="definition">
+                ID: #{contacto.idContacto} - Name: #{contacto.nombre}
+            </p:dataList>
+        </p:dialog>
+
+    </ui:define>
+
+</ui:composition>
