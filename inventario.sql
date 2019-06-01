@@ -68,8 +68,7 @@ CREATE TABLE `producto` (
   `descripcion` varchar(100) NOT NULL,
   `cantidad` int(11) NOT NULL,
   `valor` int(11) NOT NULL,
-  `nombre` varchar(90) NOT NULL,
-  `categoria` int(11) NOT NULL
+  `nombre` varchar(90) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -181,12 +180,6 @@ ALTER TABLE `venta`
 ALTER TABLE `detalleventa`
   ADD CONSTRAINT `producto` FOREIGN KEY (`producto`) REFERENCES `producto` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `venta` FOREIGN KEY (`venta`) REFERENCES `venta` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
---
--- Filtros para la tabla `producto`
---
-ALTER TABLE `producto`
-  ADD CONSTRAINT `categoria` FOREIGN KEY (`id`) REFERENCES `categoria` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Filtros para la tabla `usuario`
